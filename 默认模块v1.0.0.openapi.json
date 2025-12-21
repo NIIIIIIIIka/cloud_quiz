@@ -1,0 +1,2124 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "默认模块",
+    "description": "答题系统接口文档",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "用户"
+    },
+    {
+      "name": "答题"
+    },
+    {
+      "name": "管理员-用户管理"
+    },
+    {
+      "name": "管理员-题目管理"
+    },
+    {
+      "name": "管理员-答题记录管理"
+    }
+  ],
+  "paths": {
+    "/api/user/users/{id}": {
+      "get": {
+        "summary": "根据id查询用户",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/user/register": {
+      "post": {
+        "summary": "用户注册",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userName": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "userName",
+                  "password"
+                ]
+              },
+              "example": {
+                "userName": "testuser",
+                "password": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "summary": "用户登录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userName": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "userName",
+                  "password"
+                ]
+              },
+              "example": {
+                "userName": "testuser",
+                "password": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功，返回token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "token"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": {
+                    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwidXNlck5hbWUiOiJ0ZXN0dXNlciIsInJvbGUiOjAsImlhdCI6MTc2NTY0MTI4NCwiZXhwIjoxNzY1NjQ4NDg0fQ.W8VyErMXxb746FS9zIMMqivO5yIerHoLZMy_PGvituc"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/user/info": {
+      "get": {
+        "summary": "获取当前用户信息",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "integer"
+                        },
+                        "userName": {
+                          "type": "string"
+                        },
+                        "userRole": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "userId",
+                        "userName",
+                        "userRole"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": {
+                    "userId": 2,
+                    "userName": "testuser",
+                    "userRole": 0
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/user/logout": {
+      "post": {
+        "summary": "退出登录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/quiz/questions": {
+      "get": {
+        "summary": "获取题目列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "questionId": {
+                            "type": "integer"
+                          },
+                          "questionText": {
+                            "type": "string"
+                          },
+                          "answer1Text": {
+                            "type": "string"
+                          },
+                          "answer1Correct": {
+                            "type": "integer"
+                          },
+                          "answer2Text": {
+                            "type": "string"
+                          },
+                          "answer2Correct": {
+                            "type": "integer"
+                          },
+                          "answer3Text": {
+                            "type": "string"
+                          },
+                          "answer3Correct": {
+                            "type": "integer"
+                          },
+                          "answer4Text": {
+                            "type": "string"
+                          },
+                          "answer4Correct": {
+                            "type": "integer"
+                          },
+                          "isDeleted": {
+                            "type": "integer"
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "questionId",
+                          "questionText",
+                          "answer1Text",
+                          "answer1Correct",
+                          "answer2Text",
+                          "answer2Correct",
+                          "answer3Text",
+                          "answer3Correct",
+                          "answer4Text",
+                          "answer4Correct",
+                          "isDeleted",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": [
+                    {
+                      "questionId": 2,
+                      "questionText": "以下哪一个是奇数？",
+                      "answer1Text": "2",
+                      "answer1Correct": 0,
+                      "answer2Text": "3",
+                      "answer2Correct": 1,
+                      "answer3Text": "4",
+                      "answer3Correct": 0,
+                      "answer4Text": "6",
+                      "answer4Correct": 0,
+                      "isDeleted": 0,
+                      "createdAt": "2025-12-13T22:38:09",
+                      "updatedAt": "2025-12-13T22:38:09"
+                    },
+                    {
+                      "questionId": 1,
+                      "questionText": "中国的首都是哪座城市？",
+                      "answer1Text": "北京",
+                      "answer1Correct": 1,
+                      "answer2Text": "上海",
+                      "answer2Correct": 0,
+                      "answer3Text": "广州",
+                      "answer3Correct": 0,
+                      "answer4Text": "深圳",
+                      "answer4Correct": 0,
+                      "isDeleted": 0,
+                      "createdAt": "2025-12-13T22:38:09",
+                      "updatedAt": "2025-12-13T22:38:09"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/quiz/questions/{id}": {
+      "get": {
+        "summary": "获取单个题目",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "答题"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "questionId": {
+                          "type": "integer"
+                        },
+                        "questionText": {
+                          "type": "string"
+                        },
+                        "answer1Text": {
+                          "type": "string"
+                        },
+                        "answer1Correct": {
+                          "type": "integer"
+                        },
+                        "answer2Text": {
+                          "type": "string"
+                        },
+                        "answer2Correct": {
+                          "type": "integer"
+                        },
+                        "answer3Text": {
+                          "type": "string"
+                        },
+                        "answer3Correct": {
+                          "type": "integer"
+                        },
+                        "answer4Text": {
+                          "type": "string"
+                        },
+                        "answer4Correct": {
+                          "type": "integer"
+                        },
+                        "isDeleted": {
+                          "type": "integer"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "questionId",
+                        "questionText",
+                        "answer1Text",
+                        "answer1Correct",
+                        "answer2Text",
+                        "answer2Correct",
+                        "answer3Text",
+                        "answer3Correct",
+                        "answer4Text",
+                        "answer4Correct",
+                        "isDeleted",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": {
+                    "questionId": 1,
+                    "questionText": "中国的首都是哪座城市？",
+                    "answer1Text": "北京",
+                    "answer1Correct": 1,
+                    "answer2Text": "上海",
+                    "answer2Correct": 0,
+                    "answer3Text": "广州",
+                    "answer3Correct": 0,
+                    "answer4Text": "深圳",
+                    "answer4Correct": 0,
+                    "isDeleted": 0,
+                    "createdAt": "2025-12-13T22:38:09",
+                    "updatedAt": "2025-12-13T22:38:09"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/quiz/submit": {
+      "post": {
+        "summary": "提交答案",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "答题"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "questionId": {
+                    "type": "integer"
+                  },
+                  "selectedOption": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "questionId",
+                  "selectedOption"
+                ]
+              },
+              "example": {
+                "questionId": 1,
+                "selectedOption": 2
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "answerHistoryId": {
+                          "type": "integer"
+                        },
+                        "questionId": {
+                          "type": "integer"
+                        },
+                        "selectedOption": {
+                          "type": "integer"
+                        },
+                        "isCorrect": {
+                          "type": "boolean"
+                        },
+                        "answerTime": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "answerHistoryId",
+                        "questionId",
+                        "selectedOption",
+                        "isCorrect",
+                        "answerTime"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": {
+                    "answerHistoryId": 4,
+                    "questionId": 1,
+                    "selectedOption": 2,
+                    "isCorrect": false,
+                    "answerTime": "2025-12-14T00:05:34.9763658"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/quiz/history": {
+      "get": {
+        "summary": "获取当前用户答题记录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "答题"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "answerHistoryId": {
+                            "type": "integer"
+                          },
+                          "questionId": {
+                            "type": "integer"
+                          },
+                          "selectedOption": {
+                            "type": "integer"
+                          },
+                          "isCorrect": {
+                            "type": "boolean"
+                          },
+                          "answerTime": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "answerHistoryId",
+                          "questionId",
+                          "selectedOption",
+                          "isCorrect",
+                          "answerTime"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": [
+                    {
+                      "answerHistoryId": 5,
+                      "questionId": 1,
+                      "selectedOption": 2,
+                      "isCorrect": false,
+                      "answerTime": "2025-12-14T00:06:33"
+                    },
+                    {
+                      "answerHistoryId": 4,
+                      "questionId": 1,
+                      "selectedOption": 2,
+                      "isCorrect": false,
+                      "answerTime": "2025-12-14T00:05:35"
+                    },
+                    {
+                      "answerHistoryId": 3,
+                      "questionId": 1,
+                      "selectedOption": 1,
+                      "isCorrect": true,
+                      "answerTime": "2025-12-14T00:05:26"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/admin/users": {
+      "get": {
+        "summary": "获取所有用户列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-用户管理"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "userId": {
+                            "type": "integer"
+                          },
+                          "userName": {
+                            "type": "string"
+                          },
+                          "userRole": {
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "userId",
+                          "userName",
+                          "userRole"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": [
+                    {
+                      "userId": 3,
+                      "userName": "yuan",
+                      "userRole": 1
+                    },
+                    {
+                      "userId": 2,
+                      "userName": "testuser",
+                      "userRole": 0
+                    },
+                    {
+                      "userId": 1,
+                      "userName": "test_user",
+                      "userRole": 0
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/admin/users/{id}": {
+      "get": {
+        "summary": "获取单个用户信息",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-用户管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "integer"
+                        },
+                        "userName": {
+                          "type": "string"
+                        },
+                        "userRole": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "userId",
+                        "userName",
+                        "userRole"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": {
+                    "userId": 1,
+                    "userName": "test_user",
+                    "userRole": 0
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "更新用户信息",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-用户管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "integer"
+                  },
+                  "userName": {
+                    "type": "string"
+                  },
+                  "userPassword": {
+                    "type": "string"
+                  },
+                  "userRole": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "userId",
+                  "userName",
+                  "userPassword",
+                  "userRole"
+                ]
+              },
+              "example": {
+                "userId": 11,
+                "userName": "支国英",
+                "userPassword": "123123",
+                "userRole": 0
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "删除用户（软删除）",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-用户管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/admin/questions": {
+      "get": {
+        "summary": "获取所有题目列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-题目管理"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "questionId": {
+                            "type": "integer"
+                          },
+                          "questionText": {
+                            "type": "string"
+                          },
+                          "answer1Text": {
+                            "type": "string"
+                          },
+                          "answer1Correct": {
+                            "type": "integer"
+                          },
+                          "answer2Text": {
+                            "type": "string"
+                          },
+                          "answer2Correct": {
+                            "type": "integer"
+                          },
+                          "answer3Text": {
+                            "type": "string"
+                          },
+                          "answer3Correct": {
+                            "type": "integer"
+                          },
+                          "answer4Text": {
+                            "type": "string"
+                          },
+                          "answer4Correct": {
+                            "type": "integer"
+                          },
+                          "isDeleted": {
+                            "type": "integer"
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "questionId",
+                          "questionText",
+                          "answer1Text",
+                          "answer1Correct",
+                          "answer2Text",
+                          "answer2Correct",
+                          "answer3Text",
+                          "answer3Correct",
+                          "answer4Text",
+                          "answer4Correct",
+                          "isDeleted",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": [
+                    {
+                      "questionId": 2,
+                      "questionText": "以下哪一个是奇数？",
+                      "answer1Text": "2",
+                      "answer1Correct": 0,
+                      "answer2Text": "3",
+                      "answer2Correct": 1,
+                      "answer3Text": "4",
+                      "answer3Correct": 0,
+                      "answer4Text": "6",
+                      "answer4Correct": 0,
+                      "isDeleted": 0,
+                      "createdAt": "2025-12-13T22:38:09",
+                      "updatedAt": "2025-12-13T22:38:09"
+                    },
+                    {
+                      "questionId": 1,
+                      "questionText": "中国的首都是哪座城市？",
+                      "answer1Text": "北京",
+                      "answer1Correct": 1,
+                      "answer2Text": "上海",
+                      "answer2Correct": 0,
+                      "answer3Text": "广州",
+                      "answer3Correct": 0,
+                      "answer4Text": "深圳",
+                      "answer4Correct": 0,
+                      "isDeleted": 0,
+                      "createdAt": "2025-12-13T22:38:09",
+                      "updatedAt": "2025-12-13T22:38:09"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "新增题目",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-题目管理"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionDTO"
+              },
+              "examples": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/admin/questions/{id}": {
+      "get": {
+        "summary": "获取单个题目",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-题目管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "questionId": {
+                          "type": "integer"
+                        },
+                        "questionText": {
+                          "type": "string"
+                        },
+                        "answer1Text": {
+                          "type": "string"
+                        },
+                        "answer1Correct": {
+                          "type": "integer"
+                        },
+                        "answer2Text": {
+                          "type": "string"
+                        },
+                        "answer2Correct": {
+                          "type": "integer"
+                        },
+                        "answer3Text": {
+                          "type": "string"
+                        },
+                        "answer3Correct": {
+                          "type": "integer"
+                        },
+                        "answer4Text": {
+                          "type": "string"
+                        },
+                        "answer4Correct": {
+                          "type": "integer"
+                        },
+                        "isDeleted": {
+                          "type": "integer"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "questionId",
+                        "questionText",
+                        "answer1Text",
+                        "answer1Correct",
+                        "answer2Text",
+                        "answer2Correct",
+                        "answer3Text",
+                        "answer3Correct",
+                        "answer4Text",
+                        "answer4Correct",
+                        "isDeleted",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": {
+                    "questionId": 1,
+                    "questionText": "中国的首都是哪座城市？",
+                    "answer1Text": "北京",
+                    "answer1Correct": 1,
+                    "answer2Text": "上海",
+                    "answer2Correct": 0,
+                    "answer3Text": "广州",
+                    "answer3Correct": 0,
+                    "answer4Text": "深圳",
+                    "answer4Correct": 0,
+                    "isDeleted": 0,
+                    "createdAt": "2025-12-13T22:38:09",
+                    "updatedAt": "2025-12-13T22:38:09"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "更新题目",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-题目管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionDTO"
+              },
+              "examples": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "删除题目（软删除）",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-题目管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/admin/history": {
+      "get": {
+        "summary": "获取所有答题记录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-答题记录管理"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "answerHistoryId": {
+                            "type": "integer"
+                          },
+                          "userId": {
+                            "type": "integer"
+                          },
+                          "questionId": {
+                            "type": "integer"
+                          },
+                          "selectedOption": {
+                            "type": "integer"
+                          },
+                          "isCorrect": {
+                            "type": "integer"
+                          },
+                          "answerTime": {
+                            "type": "string"
+                          },
+                          "isDeleted": {
+                            "type": "integer"
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "answerHistoryId",
+                          "userId",
+                          "questionId",
+                          "selectedOption",
+                          "isCorrect",
+                          "answerTime",
+                          "isDeleted",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": [
+                    {
+                      "answerHistoryId": 5,
+                      "userId": 2,
+                      "questionId": 1,
+                      "selectedOption": 2,
+                      "isCorrect": 0,
+                      "answerTime": "2025-12-14T00:06:33",
+                      "isDeleted": 0,
+                      "createdAt": "2025-12-14T00:06:32",
+                      "updatedAt": "2025-12-14T00:06:32"
+                    },
+                    {
+                      "answerHistoryId": 4,
+                      "userId": 2,
+                      "questionId": 1,
+                      "selectedOption": 2,
+                      "isCorrect": 0,
+                      "answerTime": "2025-12-14T00:05:35",
+                      "isDeleted": 0,
+                      "createdAt": "2025-12-14T00:05:34",
+                      "updatedAt": "2025-12-14T00:05:34"
+                    },
+                    {
+                      "answerHistoryId": 3,
+                      "userId": 2,
+                      "questionId": 1,
+                      "selectedOption": 1,
+                      "isCorrect": 1,
+                      "answerTime": "2025-12-14T00:05:26",
+                      "isDeleted": 0,
+                      "createdAt": "2025-12-14T00:05:26",
+                      "updatedAt": "2025-12-14T00:05:26"
+                    },
+                    {
+                      "answerHistoryId": 2,
+                      "userId": 1,
+                      "questionId": 2,
+                      "selectedOption": 1,
+                      "isCorrect": 0,
+                      "answerTime": "2025-12-13T22:38:09",
+                      "isDeleted": 0,
+                      "createdAt": "2025-12-13T22:38:09",
+                      "updatedAt": "2025-12-13T22:38:09"
+                    },
+                    {
+                      "answerHistoryId": 1,
+                      "userId": 1,
+                      "questionId": 1,
+                      "selectedOption": 1,
+                      "isCorrect": 1,
+                      "answerTime": "2025-12-13T22:38:09",
+                      "isDeleted": 0,
+                      "createdAt": "2025-12-13T22:38:09",
+                      "updatedAt": "2025-12-13T22:38:09"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/admin/history/{id}": {
+      "get": {
+        "summary": "获取单个答题记录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-答题记录管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "answerHistoryId": {
+                          "type": "integer"
+                        },
+                        "userId": {
+                          "type": "integer"
+                        },
+                        "questionId": {
+                          "type": "integer"
+                        },
+                        "selectedOption": {
+                          "type": "integer"
+                        },
+                        "isCorrect": {
+                          "type": "integer"
+                        },
+                        "answerTime": {
+                          "type": "string"
+                        },
+                        "isDeleted": {
+                          "type": "integer"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "answerHistoryId",
+                        "userId",
+                        "questionId",
+                        "selectedOption",
+                        "isCorrect",
+                        "answerTime",
+                        "isDeleted",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success",
+                  "data": {
+                    "answerHistoryId": 1,
+                    "userId": 1,
+                    "questionId": 1,
+                    "selectedOption": 1,
+                    "isCorrect": 1,
+                    "answerTime": "2025-12-13T22:38:09",
+                    "isDeleted": 0,
+                    "createdAt": "2025-12-13T22:38:09",
+                    "updatedAt": "2025-12-13T22:38:09"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "删除答题记录（软删除）",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理员-答题记录管理"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 0,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "message": "success"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Result": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 0
+          },
+          "message": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {}
+        }
+      },
+      "UserRegisterDTO": {
+        "type": "object",
+        "required": [
+          "userName",
+          "password"
+        ],
+        "properties": {
+          "userName": {
+            "type": "string",
+            "example": "testuser"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456"
+          }
+        }
+      },
+      "UserLoginDTO": {
+        "type": "object",
+        "required": [
+          "userName",
+          "password"
+        ],
+        "properties": {
+          "userName": {
+            "type": "string",
+            "example": "testuser"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456"
+          }
+        }
+      },
+      "UserVO": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "integer",
+            "description": "0=普通用户 1=管理员"
+          }
+        }
+      },
+      "Question": {
+        "type": "object",
+        "properties": {
+          "questionId": {
+            "type": "integer"
+          },
+          "questionText": {
+            "type": "string"
+          },
+          "answer1Text": {
+            "type": "string"
+          },
+          "answer1Correct": {
+            "type": "integer"
+          },
+          "answer2Text": {
+            "type": "string"
+          },
+          "answer2Correct": {
+            "type": "integer"
+          },
+          "answer3Text": {
+            "type": "string"
+          },
+          "answer3Correct": {
+            "type": "integer"
+          },
+          "answer4Text": {
+            "type": "string"
+          },
+          "answer4Correct": {
+            "type": "integer"
+          }
+        }
+      },
+      "QuestionDTO": {
+        "type": "object",
+        "required": [
+          "questionText",
+          "answer1Text",
+          "answer1Correct",
+          "answer2Text",
+          "answer2Correct",
+          "answer3Text",
+          "answer3Correct",
+          "answer4Text",
+          "answer4Correct"
+        ],
+        "properties": {
+          "questionText": {
+            "type": "string"
+          },
+          "answer1Text": {
+            "type": "string"
+          },
+          "answer1Correct": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "answer2Text": {
+            "type": "string"
+          },
+          "answer2Correct": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "answer3Text": {
+            "type": "string"
+          },
+          "answer3Correct": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "answer4Text": {
+            "type": "string"
+          },
+          "answer4Correct": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ]
+          }
+        }
+      },
+      "AnswerSubmitDTO": {
+        "type": "object",
+        "required": [
+          "questionId",
+          "selectedOption"
+        ],
+        "properties": {
+          "questionId": {
+            "type": "integer"
+          },
+          "selectedOption": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          }
+        }
+      },
+      "AnswerResultVO": {
+        "type": "object",
+        "properties": {
+          "answerHistoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "questionId": {
+            "type": "integer"
+          },
+          "selectedOption": {
+            "type": "integer"
+          },
+          "isCorrect": {
+            "type": "boolean"
+          },
+          "answerTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AnswerHistory": {
+        "type": "object",
+        "properties": {
+          "answerHistoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "questionId": {
+            "type": "integer"
+          },
+          "selectedOption": {
+            "type": "integer"
+          },
+          "isCorrect": {
+            "type": "integer"
+          },
+          "answerTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "userPassword": {
+            "type": "string"
+          },
+          "userRole": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "responses": {},
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "servers": [],
+  "security": []
+}

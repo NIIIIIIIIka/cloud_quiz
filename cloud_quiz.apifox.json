@@ -1,0 +1,3335 @@
+{
+  "apifoxProject": "1.0.0",
+  "$schema": {
+    "app": "apifox",
+    "type": "project",
+    "version": "1.2.0"
+  },
+  "info": {
+    "name": "cloud_quiz2",
+    "description": "",
+    "mockRule": {
+      "rules": [],
+      "enableSystemRule": true
+    }
+  },
+  "projectSetting": {
+    "id": "7635565",
+    "auth": {},
+    "securityScheme": {},
+    "gateway": [],
+    "language": "zh-CN",
+    "apiStatuses": [
+      "developing",
+      "testing",
+      "released",
+      "deprecated"
+    ],
+    "mockSettings": {},
+    "preProcessors": [],
+    "postProcessors": [],
+    "advancedSettings": {
+      "enableJsonc": false,
+      "enableBigint": false,
+      "responseValidate": true,
+      "enableTestScenarioSetting": false,
+      "enableYAPICompatScript": false,
+      "isDefaultUrlEncoding": 2,
+      "publishedDocUrlRules": {
+        "defaultRule": "RESOURCE_KEY_ONLY",
+        "resourceKeyStandard": "NEW"
+      }
+    },
+    "initialDisabledMockIds": [],
+    "servers": [
+      {
+        "id": "default",
+        "name": "默认服务",
+        "moduleId": 6804672
+      }
+    ],
+    "cloudMock": {
+      "security": "free",
+      "enable": false,
+      "tokenKey": "apifoxToken"
+    }
+  },
+  "apiCollection": [
+    {
+      "name": "根目录",
+      "id": 74339666,
+      "auth": {},
+      "securityScheme": {},
+      "parentId": 0,
+      "serverId": "",
+      "description": "",
+      "identityPattern": {
+        "httpApi": {
+          "type": "methodAndPath",
+          "bodyType": "",
+          "fields": []
+        }
+      },
+      "shareSettings": {},
+      "visibility": "SHARED",
+      "moduleId": 6804672,
+      "preProcessors": [
+        {
+          "id": "inheritProcessors",
+          "type": "inheritProcessors",
+          "data": {}
+        }
+      ],
+      "postProcessors": [
+        {
+          "id": "inheritProcessors",
+          "type": "inheritProcessors",
+          "data": {}
+        }
+      ],
+      "inheritPostProcessors": {},
+      "inheritPreProcessors": {},
+      "items": [
+        {
+          "name": "AnswerController",
+          "id": 74339693,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 0,
+          "serverId": "",
+          "description": "",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 6804672,
+          "preProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "postProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "提交答案",
+              "api": {
+                "id": "394614184",
+                "method": "post",
+                "path": "/api/anwser/submit",
+                "parameters": {
+                  "query": [],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "7_xL2AHSkoUniAN79lIGn",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "7_xL2AHSkoUniAN79lIGn",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{UserToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "159872475",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240855"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": {\n    \"answerHistoryId\": 0,\n    \"questionId\": 0,\n    \"selectedOption\": 0,\n    \"isCorrect\": false,\n    \"answerTime\": \"\"\n  }\n}",
+                    "responseId": 159872475
+                  }
+                ],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/231240856",
+                    "description": ""
+                  },
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\r\n    \"questionId\": 2,\r\n    \"selectedOption\": 1\r\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 6,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "当前用户答题记录",
+              "api": {
+                "id": "394614185",
+                "method": "get",
+                "path": "/api/anwser/history/user/{id}",
+                "parameters": {
+                  "query": [
+                    {
+                      "required": false,
+                      "description": "",
+                      "type": "string",
+                      "id": "yBsUFsk3Z5",
+                      "enable": true,
+                      "name": "id",
+                      "example": "1"
+                    }
+                  ],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "8FkPr00zd2P99uwhjffay",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "8FkPr00zd2P99uwhjffay",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{AdminToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "176652504",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240857"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": [\n    {\n      \"answerHistoryId\": 0,\n      \"questionId\": 0,\n      \"selectedOption\": 0,\n      \"isCorrect\": false,\n      \"answerTime\": \"\"\n    }\n  ]\n}",
+                    "responseId": 176652504
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 12,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "获取所有记录",
+              "api": {
+                "id": "394614186",
+                "method": "get",
+                "path": "/api/anwser/history/all",
+                "parameters": {
+                  "query": [],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "of5gwh_LCwEiNkQ0v6szR",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "of5gwh_LCwEiNkQ0v6szR",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{AdminToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "162242087",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240859"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": [\n    {\n      \"answerHistoryId\": 0,\n      \"userId\": 0,\n      \"questionId\": 0,\n      \"selectedOption\": 0,\n      \"isCorrect\": 0,\n      \"answerTime\": \"\",\n      \"isDeleted\": 0,\n      \"createdAt\": \"\",\n      \"updatedAt\": \"\"\n    }\n  ]\n}",
+                    "responseId": 162242087
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 18,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "获取当前用户记录",
+              "api": {
+                "id": "394614187",
+                "method": "get",
+                "path": "/api/anwser/history/my",
+                "parameters": {
+                  "query": [],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "sgHzm0oa-o7wifteDcaeO",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "sgHzm0oa-o7wifteDcaeO",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{UserToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "110152784",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240857"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": [\n    {\n      \"answerHistoryId\": 0,\n      \"questionId\": 0,\n      \"selectedOption\": 0,\n      \"isCorrect\": false,\n      \"answerTime\": \"\"\n    }\n  ]\n}",
+                    "responseId": 110152784
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 24,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "通过id获取记录",
+              "api": {
+                "id": "394614188",
+                "method": "get",
+                "path": "/api/anwser/history/{id}",
+                "parameters": {
+                  "query": [],
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "description": "",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "enable": true,
+                      "example": "1"
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "Y6JTUCz9a5bjgce5xB87h",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "Y6JTUCz9a5bjgce5xB87h",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{AdminToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "185280398",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240860"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": {\n    \"answerHistoryId\": 0,\n    \"userId\": 0,\n    \"questionId\": 0,\n    \"selectedOption\": 0,\n    \"isCorrect\": 0,\n    \"answerTime\": \"\",\n    \"isDeleted\": 0,\n    \"createdAt\": \"\",\n    \"updatedAt\": \"\"\n  }\n}",
+                    "responseId": 185280398
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 30,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "删除某条记录",
+              "api": {
+                "id": "394614189",
+                "method": "delete",
+                "path": "/api/anwser/history/{id}",
+                "parameters": {
+                  "query": [],
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "description": "",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "enable": true,
+                      "example": "1"
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "el8dbr85rEKteWsjYYUzi",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "el8dbr85rEKteWsjYYUzi",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{AdminToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "130494815",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240861"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": null\n}",
+                    "responseId": 130494815
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 36,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "QuizController",
+          "id": 74339696,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 0,
+          "serverId": "",
+          "description": "",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 6804672,
+          "preProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "postProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "获取题目列表",
+              "api": {
+                "id": "394614199",
+                "method": "get",
+                "path": "/api/quiz/questions",
+                "parameters": {
+                  "query": [],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "uDbFG6-VitSoadH8678WQ",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "uDbFG6-VitSoadH8678WQ",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{UserToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "106928962",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240863"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": [\n    {\n      \"questionId\": 0,\n      \"questionText\": \"\",\n      \"answer1Text\": \"\",\n      \"answer1Correct\": 0,\n      \"answer2Text\": \"\",\n      \"answer2Correct\": 0,\n      \"answer3Text\": \"\",\n      \"answer3Correct\": 0,\n      \"answer4Text\": \"\",\n      \"answer4Correct\": 0,\n      \"isDeleted\": 0,\n      \"createdAt\": \"\",\n      \"updatedAt\": \"\"\n    }\n  ]\n}",
+                    "responseId": 106928962
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 6,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "获取单个题目",
+              "api": {
+                "id": "394614200",
+                "method": "get",
+                "path": "/api/quiz/questions/{id}",
+                "parameters": {
+                  "query": [],
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "description": "",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "enable": true,
+                      "example": "1"
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "LeigaC5mZiyk0wTkG4jI3",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "LeigaC5mZiyk0wTkG4jI3",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{UserToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "137459153",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240864"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": {\n    \"questionId\": 0,\n    \"questionText\": \"\",\n    \"answer1Text\": \"\",\n    \"answer1Correct\": 0,\n    \"answer2Text\": \"\",\n    \"answer2Correct\": 0,\n    \"answer3Text\": \"\",\n    \"answer3Correct\": 0,\n    \"answer4Text\": \"\",\n    \"answer4Correct\": 0,\n    \"isDeleted\": 0,\n    \"createdAt\": \"\",\n    \"updatedAt\": \"\"\n  }\n}",
+                    "responseId": 137459153
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 12,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "增加题目",
+              "api": {
+                "id": "394614201",
+                "method": "post",
+                "path": "/api/quiz/questions",
+                "parameters": {
+                  "query": [],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "l04S5RAQRc_DlrdguRWr4",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "l04S5RAQRc_DlrdguRWr4",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{UserToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "100557700",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240861"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": null\n}",
+                    "responseId": 100557700
+                  }
+                ],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/231240865",
+                    "description": ""
+                  },
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\r\n    \"questionText\": \"ad adipisicing id sunt qui\",\r\n    \"answer1Text\": \"commodo laborum ea aliquip\",\r\n    \"answer1Correct\": 0,\r\n    \"answer2Text\": \"ipsum\",\r\n    \"answer2Correct\": 0,\r\n    \"answer3Text\": \"ea Ut tempor\",\r\n    \"answer3Correct\": 1,\r\n    \"answer4Text\": \"velit esse\",\r\n    \"answer4Correct\": 0\r\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 18,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "更新题目",
+              "api": {
+                "id": "394614202",
+                "method": "put",
+                "path": "/api/quiz/questions/{id}",
+                "parameters": {
+                  "query": [],
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "description": "",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "enable": true,
+                      "example": "1"
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "P70w63awPwdq8Dhuz99nU",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "P70w63awPwdq8Dhuz99nU",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{AdminToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "129953122",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240861"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": null\n}",
+                    "responseId": 129953122
+                  }
+                ],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/231240865",
+                    "description": ""
+                  },
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\r\n    \"questionText\": \"proident minim voluptate sint\",\r\n    \"answer1Text\": \"ea exercitation\",\r\n    \"answer1Correct\": 0,\r\n    \"answer2Text\": \"sint labore est\",\r\n    \"answer2Correct\": 1,\r\n    \"answer3Text\": \"ipsum ut irure in\",\r\n    \"answer3Correct\": 0,\r\n    \"answer4Text\": \"proident occaecat sed\",\r\n    \"answer4Correct\": 0\r\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 24,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "删除题目",
+              "api": {
+                "id": "394614203",
+                "method": "delete",
+                "path": "/api/quiz/questions/{id}",
+                "parameters": {
+                  "query": [],
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "description": "",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "enable": true,
+                      "example": "1"
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "xAe7fQkIUQ8AB19vlJkqM",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "xAe7fQkIUQ8AB19vlJkqM",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{AdminToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "157855556",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240861"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": null\n}",
+                    "responseId": 157855556
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 30,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "UserController",
+          "id": 74339698,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 0,
+          "serverId": "",
+          "description": "",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 6804672,
+          "preProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "postProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "用户注册",
+              "api": {
+                "id": "394614233",
+                "method": "post",
+                "path": "/api/user/register",
+                "parameters": {
+                  "query": [],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "181490948",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240861"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": null\n}",
+                    "responseId": 181490948
+                  }
+                ],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/231240888",
+                    "description": ""
+                  },
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\r\n    \"userName\": \"test\",\r\n    \"password\": \"123456\"\r\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 6,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "用户登录，返回 token",
+              "api": {
+                "id": "394614234",
+                "method": "post",
+                "path": "/api/user/login",
+                "parameters": {
+                  "query": [],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "194921692",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240890"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": {\n    \"\": \"\"\n  }\n}",
+                    "responseId": 194921692
+                  }
+                ],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/231240891",
+                    "description": ""
+                  },
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\r\n    \"userName\": \"admin\",\r\n    \"password\": \"123456\"\r\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 12,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "根据id获取用户",
+              "api": {
+                "id": "394614235",
+                "method": "get",
+                "path": "/api/user/users/{id}",
+                "parameters": {
+                  "query": [],
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "description": "",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "enable": true,
+                      "example": "1"
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "schemeGroups": [
+                    {
+                      "id": "8cqnCHwPmOv4RvmDnNOAN",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "required": true,
+                  "use": {
+                    "id": "8cqnCHwPmOv4RvmDnNOAN",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwidXNlck5hbWUiOiJhZG1pbiIsInJvbGUiOjEsImlhdCI6MTc2NjMwODkwNCwiZXhwIjoxNzY2MzE2MTA0fQ.vLiBigZ2bwIgnws5O9OhR9sWzpXfBEyH9TRrsvIvGWM"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "185467028",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240893"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": {\n    \"userId\": 0,\n    \"userName\": \"\",\n    \"userRole\": 0\n  }\n}",
+                    "responseId": 185467028
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 18,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "获取所有用户",
+              "api": {
+                "id": "394614236",
+                "method": "get",
+                "path": "/api/user/users",
+                "parameters": {
+                  "query": [],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "GUKQNh4xE9jJnTIhiH5t8",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "GUKQNh4xE9jJnTIhiH5t8",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{AdminToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "107435801",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240894"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": [\n    {\n      \"userId\": 0,\n      \"userName\": \"\",\n      \"userRole\": 0\n    }\n  ]\n}",
+                    "responseId": 107435801
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 24,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "更新用户",
+              "api": {
+                "id": "394614237",
+                "method": "put",
+                "path": "/api/user/users/{id}",
+                "parameters": {
+                  "query": [],
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "description": "",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "enable": true,
+                      "example": "1"
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "aVHTXqNDsqs02RCx4pr5y",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "aVHTXqNDsqs02RCx4pr5y",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{AdminToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "174123566",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240861"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": null\n}",
+                    "responseId": 174123566
+                  }
+                ],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/231240895",
+                    "description": ""
+                  },
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\r\n    \"userName\": \"碧雅婷\",\r\n    \"userPassword\": \"dLw89R8Q6MbvqsJ\",\r\n    \"userRole\": 1\r\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 30,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "删除用户",
+              "api": {
+                "id": "394614238",
+                "method": "delete",
+                "path": "/api/user/users/{id}",
+                "parameters": {
+                  "query": [],
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "description": "",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "enable": true
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "165338707",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240861"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": null\n}",
+                    "responseId": 165338707
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 36,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "获取当前用户信息",
+              "api": {
+                "id": "394614239",
+                "method": "get",
+                "path": "/api/user/info",
+                "parameters": {
+                  "query": [],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "required": true,
+                  "schemeGroups": [
+                    {
+                      "id": "MR_HhV-T-eCvBSNQBn_Yh",
+                      "schemeIds": [
+                        665823
+                      ]
+                    }
+                  ],
+                  "use": {
+                    "id": "MR_HhV-T-eCvBSNQBn_Yh",
+                    "configs": {
+                      "665823": {
+                        "authConfigs": {
+                          "x-apifox": {
+                            "token": "{{UserToken}}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "195004867",
+                    "code": 200,
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240893"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "description": "",
+                    "contentType": "json",
+                    "mediaType": ""
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": {\n    \"userId\": 0,\n    \"userName\": \"\",\n    \"userRole\": 0\n  }\n}",
+                    "responseId": 195004867
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 42,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "退出登录（前端删除token即可，此处仅返回成功）",
+              "api": {
+                "id": "394614240",
+                "method": "post",
+                "path": "/api/user/logout",
+                "parameters": {
+                  "path": [],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "199179156",
+                    "code": 200,
+                    "jsonSchema": {
+                      "$ref": "#/definitions/231240861"
+                    },
+                    "itemSchema": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "contentType": "json"
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "成功示例",
+                    "data": "{\n  \"code\": 0,\n  \"message\": \"\",\n  \"data\": null\n}",
+                    "responseId": "199179156"
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [],
+                "status": "released",
+                "serverId": "",
+                "operationId": "",
+                "sourceUrl": "",
+                "ordering": 48,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 6804672,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "socketCollection": [],
+  "docCollection": [],
+  "webSocketCollection": [],
+  "socketIOCollection": [],
+  "responseCollection": [
+    {
+      "_databaseId": 8132164,
+      "updatedAt": "2025-12-21T09:11:21.000Z",
+      "name": "根目录",
+      "type": "root",
+      "children": [],
+      "moduleId": 6804672,
+      "parentId": 0,
+      "id": 8132164,
+      "ordering": [],
+      "items": []
+    }
+  ],
+  "schemaCollection": [
+    {
+      "id": 17761094,
+      "name": "根目录",
+      "visibility": "SHARED",
+      "moduleId": 6804672,
+      "items": [
+        {
+          "name": "AnswerResultVO",
+          "displayName": "",
+          "id": "#/definitions/231240854",
+          "description": "com.djy.quiz.pojo.vo.AnswerResultVO",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "answerHistoryId": {
+                  "type": "integer",
+                  "description": "",
+                  "format": "int64"
+                },
+                "questionId": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "selectedOption": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "isCorrect": {
+                  "type": "boolean",
+                  "description": ""
+                },
+                "answerTime": {
+                  "type": "string",
+                  "description": "",
+                  "x-apifox-mock": "@datetime"
+                }
+              },
+              "x-apifox-orders": [
+                "answerHistoryId",
+                "questionId",
+                "selectedOption",
+                "isCorrect",
+                "answerTime"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "Question",
+          "displayName": "",
+          "id": "#/definitions/231240862",
+          "description": "com.djy.quiz.pojo.model.Question",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "questionId": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "questionText": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer1Text": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer1Correct": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "answer2Text": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer2Correct": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "answer3Text": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer3Correct": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "answer4Text": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer4Correct": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "isDeleted": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "createdAt": {
+                  "type": "string",
+                  "description": "",
+                  "x-apifox-mock": "@datetime"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "description": "",
+                  "x-apifox-mock": "@datetime"
+                }
+              },
+              "x-apifox-orders": [
+                "questionId",
+                "questionText",
+                "answer1Text",
+                "answer1Correct",
+                "answer2Text",
+                "answer2Correct",
+                "answer3Text",
+                "answer3Correct",
+                "answer4Text",
+                "answer4Correct",
+                "isDeleted",
+                "createdAt",
+                "updatedAt"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultAnswerResultVO",
+          "displayName": "",
+          "id": "#/definitions/231240855",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "$ref": "#/definitions/231240854",
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultListQuestion",
+          "displayName": "",
+          "id": "#/definitions/231240863",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/231240862",
+                    "description": "com.djy.quiz.pojo.model.Question"
+                  },
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "UserRegisterDTO",
+          "displayName": "",
+          "id": "#/definitions/231240888",
+          "description": "com.djy.quiz.pojo.dto.UserRegisterDTO",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "userName": {
+                  "type": "string",
+                  "description": ""
+                },
+                "password": {
+                  "type": "string",
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "userName",
+                "password"
+              ],
+              "required": [
+                "userName",
+                "password"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "AnswerSubmitDTO",
+          "displayName": "",
+          "id": "#/definitions/231240856",
+          "description": "com.djy.quiz.pojo.dto.AnswerSubmitDTO",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "questionId": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "selectedOption": {
+                  "type": "integer",
+                  "description": "",
+                  "minimum": 1,
+                  "maximum": 4,
+                  "x-apifox-mock": "@integer(1,4)"
+                }
+              },
+              "x-apifox-orders": [
+                "questionId",
+                "selectedOption"
+              ],
+              "required": [
+                "questionId",
+                "selectedOption"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultQuestion",
+          "displayName": "",
+          "id": "#/definitions/231240864",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "$ref": "#/definitions/231240862",
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "MapString",
+          "displayName": "",
+          "id": "#/definitions/231240889",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                }
+              },
+              "x-apifox-orders": [
+                "key"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultListAnswerResultVO",
+          "displayName": "",
+          "id": "#/definitions/231240857",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/231240854",
+                    "description": "com.djy.quiz.pojo.vo.AnswerResultVO"
+                  },
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultMapString",
+          "displayName": "",
+          "id": "#/definitions/231240890",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "$ref": "#/definitions/231240889",
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "AnswerHistory",
+          "displayName": "",
+          "id": "#/definitions/231240858",
+          "description": "com.djy.quiz.pojo.model.AnswerHistory",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "answerHistoryId": {
+                  "type": "integer",
+                  "description": "",
+                  "format": "int64"
+                },
+                "userId": {
+                  "type": "integer",
+                  "description": "",
+                  "format": "int64"
+                },
+                "questionId": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "selectedOption": {
+                  "type": "integer",
+                  "description": "1-4"
+                },
+                "isCorrect": {
+                  "type": "integer",
+                  "description": "0/1"
+                },
+                "answerTime": {
+                  "type": "string",
+                  "description": "",
+                  "x-apifox-mock": "@datetime"
+                },
+                "isDeleted": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "createdAt": {
+                  "type": "string",
+                  "description": "",
+                  "x-apifox-mock": "@datetime"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "description": "",
+                  "x-apifox-mock": "@datetime"
+                }
+              },
+              "x-apifox-orders": [
+                "answerHistoryId",
+                "userId",
+                "questionId",
+                "selectedOption",
+                "isCorrect",
+                "answerTime",
+                "isDeleted",
+                "createdAt",
+                "updatedAt"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "QuestionDTO",
+          "displayName": "",
+          "id": "#/definitions/231240865",
+          "description": "com.djy.quiz.pojo.dto.QuestionDTO",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "questionId": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "questionText": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer1Text": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer1Correct": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "answer2Text": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer2Correct": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "answer3Text": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer3Correct": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "answer4Text": {
+                  "type": "string",
+                  "description": ""
+                },
+                "answer4Correct": {
+                  "type": "integer",
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "questionId",
+                "questionText",
+                "answer1Text",
+                "answer1Correct",
+                "answer2Text",
+                "answer2Correct",
+                "answer3Text",
+                "answer3Correct",
+                "answer4Text",
+                "answer4Correct"
+              ],
+              "required": [
+                "questionText",
+                "answer1Text",
+                "answer1Correct",
+                "answer2Text",
+                "answer2Correct",
+                "answer3Text",
+                "answer3Correct",
+                "answer4Text",
+                "answer4Correct"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "UserLoginDTO",
+          "displayName": "",
+          "id": "#/definitions/231240891",
+          "description": "com.djy.quiz.pojo.dto.UserLoginDTO",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "userName": {
+                  "type": "string",
+                  "description": ""
+                },
+                "password": {
+                  "type": "string",
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "userName",
+                "password"
+              ],
+              "required": [
+                "userName",
+                "password"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultListAnswerHistory",
+          "displayName": "",
+          "id": "#/definitions/231240859",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/231240858",
+                    "description": "com.djy.quiz.pojo.model.AnswerHistory"
+                  },
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "UserVO",
+          "displayName": "",
+          "id": "#/definitions/231240892",
+          "description": "com.djy.quiz.pojo.vo.UserVO",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "integer",
+                  "description": "",
+                  "format": "int64"
+                },
+                "userName": {
+                  "type": "string",
+                  "description": ""
+                },
+                "userRole": {
+                  "type": "integer",
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "userId",
+                "userName",
+                "userRole"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultAnswerHistory",
+          "displayName": "",
+          "id": "#/definitions/231240860",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "$ref": "#/definitions/231240858",
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultUserVO",
+          "displayName": "",
+          "id": "#/definitions/231240893",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "$ref": "#/definitions/231240892",
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultVoid",
+          "displayName": "",
+          "id": "#/definitions/231240861",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "description": "",
+                  "type": "null"
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "ResultListUserVO",
+          "displayName": "",
+          "id": "#/definitions/231240894",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "200 成功，400 请求错误，404 找不到，500 服务器错误"
+                },
+                "message": {
+                  "type": "string",
+                  "description": ""
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/231240892",
+                    "description": "com.djy.quiz.pojo.vo.UserVO"
+                  },
+                  "description": ""
+                }
+              },
+              "x-apifox-orders": [
+                "code",
+                "message",
+                "data"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        },
+        {
+          "name": "User",
+          "displayName": "",
+          "id": "#/definitions/231240895",
+          "description": "com.djy.quiz.pojo.model.User",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "integer",
+                  "description": "",
+                  "format": "int64"
+                },
+                "userName": {
+                  "type": "string",
+                  "description": ""
+                },
+                "userPassword": {
+                  "type": "string",
+                  "description": ""
+                },
+                "userRole": {
+                  "type": "integer",
+                  "description": "0 user, 1 admin"
+                },
+                "isDeleted": {
+                  "type": "integer",
+                  "description": ""
+                },
+                "createdAt": {
+                  "type": "string",
+                  "description": "",
+                  "x-apifox-mock": "@datetime"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "description": "",
+                  "x-apifox-mock": "@datetime"
+                }
+              },
+              "x-apifox-orders": [
+                "userId",
+                "userName",
+                "userPassword",
+                "userRole",
+                "isDeleted",
+                "createdAt",
+                "updatedAt"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 6804672
+        }
+      ]
+    }
+  ],
+  "securitySchemeCollection": [
+    {
+      "id": 2872548,
+      "moduleId": 6804672,
+      "name": "根目录",
+      "items": [
+        {
+          "id": 665823,
+          "name": "BearerAuth",
+          "moduleId": 6804672,
+          "authType": "bearer",
+          "oasAuthType": "http",
+          "authConfigs": {
+            "type": "http",
+            "scheme": "bearer"
+          },
+          "guidanceConfigs": {}
+        }
+      ]
+    }
+  ],
+  "requestCollection": [
+    {
+      "name": "根目录",
+      "children": [],
+      "ordering": [
+        "requestFolder.8135820"
+      ],
+      "items": []
+    }
+  ],
+  "apiTestCaseCollection": [
+    {
+      "name": "Root",
+      "children": [],
+      "items": []
+    }
+  ],
+  "testCaseReferences": [],
+  "environments": [],
+  "commonScripts": [],
+  "databaseConnections": [],
+  "globalVariables": [
+    {
+      "id": "7594549",
+      "variables": [
+        {
+          "name": "UserToken",
+          "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwidXNlck5hbWUiOiJ0ZXN0Iiwicm9sZSI6MCwiaWF0IjoxNzY2MzA4NTIwLCJleHAiOjE3NjYzMTU3MjB9.Jfml3W4vm1UteGv8JzFjPpPzMKz4ievwDZ9uq05tbFU",
+          "description": "",
+          "isBindInitial": true,
+          "initialValue": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwidXNlck5hbWUiOiJ0ZXN0Iiwicm9sZSI6MCwiaWF0IjoxNzY2MzA4NTIwLCJleHAiOjE3NjYzMTU3MjB9.Jfml3W4vm1UteGv8JzFjPpPzMKz4ievwDZ9uq05tbFU",
+          "isSync": true
+        },
+        {
+          "name": "AdminToken",
+          "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwidXNlck5hbWUiOiJhZG1pbiIsInJvbGUiOjEsImlhdCI6MTc2NjMwODc4OSwiZXhwIjoxNzY2MzE1OTg5fQ.Pf5t6CeXfjJSntDdN1Jjlwg8JJYDM2bh9V2MplO4F5w",
+          "description": "",
+          "isBindInitial": true,
+          "initialValue": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwidXNlck5hbWUiOiJhZG1pbiIsInJvbGUiOjEsImlhdCI6MTc2NjMwODc4OSwiZXhwIjoxNzY2MzE1OTg5fQ.Pf5t6CeXfjJSntDdN1Jjlwg8JJYDM2bh9V2MplO4F5w",
+          "isSync": true
+        }
+      ]
+    }
+  ],
+  "commonParameters": null,
+  "customFunctions": [],
+  "projectTestCaseCategories": [
+    {
+      "id": 5430644,
+      "name": "正向",
+      "description": "有效的输入和正确的预期结果,代表典型的用法。"
+    },
+    {
+      "id": 5430645,
+      "name": "负向",
+      "description": "消极的、无效的输入,如缺少字段、错误的类型、不支持的方法等。"
+    },
+    {
+      "id": 5430646,
+      "name": "边界值",
+      "description": "极端或边缘条件,如最大字符串长度、空值、零、null等"
+    },
+    {
+      "id": 5430647,
+      "name": "安全性",
+      "description": "可能暴露API安全性风险的测试用例。"
+    },
+    {
+      "id": 5430648,
+      "name": "其他",
+      "description": "其他未归属的测试用例。"
+    }
+  ],
+  "projectTestCaseTags": [
+    {
+      "id": 16571448,
+      "name": "仅传必要字段",
+      "description": "仅发送具有有效值的必填字段,省略所有可选字段,以测试最小有效请求。"
+    },
+    {
+      "id": 16571449,
+      "name": "语义合法",
+      "description": "使用语法正确且在业务逻辑或域上下文中也有意义的值。"
+    },
+    {
+      "id": 16571450,
+      "name": "覆盖枚举组合",
+      "description": "对所有枚举型参数,应用正交设计系统地构建参数及其枚举值的测试用例组合,专用于测试枚举覆盖率"
+    },
+    {
+      "id": 16571451,
+      "name": "其他正向",
+      "description": "提供符合API规范的真实有效的输入,产生正确和预期的结果。"
+    },
+    {
+      "id": 16571452,
+      "name": "缺失必填字段",
+      "description": "在请求主体或参数中省略一个或多个必需字段。"
+    },
+    {
+      "id": 16571453,
+      "name": "无效值",
+      "description": "提供的值类型和格式正确,但在逻辑上对该字段无效。"
+    },
+    {
+      "id": 16571454,
+      "name": "类型错误",
+      "description": "使用数据类型不正确的值,例如发送字符串而不是整数。"
+    },
+    {
+      "id": 16571455,
+      "name": "格式错误",
+      "description": "以不正确的格式提供值,例如,错误的日期模式,格式错误的电子邮件地址。"
+    },
+    {
+      "id": 16571456,
+      "name": "语义非法",
+      "description": "使用语法正确且格式正确的值,这些值在逻辑上不可能或违反域规则。"
+    },
+    {
+      "id": 16571457,
+      "name": "其他负向",
+      "description": "提供无效或意外的输入,应触发错误处理或拒绝API。"
+    },
+    {
+      "id": 16571458,
+      "name": "Null",
+      "description": "必须是 JSON 字面量 `null`(不是空的,也不是 \"null\")。"
+    },
+    {
+      "id": 16571459,
+      "name": "零值",
+      "description": "必须是数字字面值0。"
+    },
+    {
+      "id": 16571460,
+      "name": "空值",
+      "description": "必须是\"\"。"
+    },
+    {
+      "id": 16571461,
+      "name": "极大值",
+      "description": "Max/min值 - 为数字或日期字段提供精确的最小值和最大值。"
+    },
+    {
+      "id": 16571462,
+      "name": "极小值",
+      "description": "Max/min值 - 为数字或日期字段提供精确的最小值和最大值。"
+    },
+    {
+      "id": 16571463,
+      "name": "超出最大边界值",
+      "description": "过长/过短字符串 - 提供超出允许的最小或最大边界的值。"
+    },
+    {
+      "id": 16571464,
+      "name": "超出最小边界值",
+      "description": "过长/过短字符串 - 提供超出允许的最小或最大边界的值。"
+    },
+    {
+      "id": 16571465,
+      "name": "字符串过长",
+      "description": "超出范围的值 - 提供大于允许的最大长度或小于要求的最小长度的字符串。"
+    },
+    {
+      "id": 16571466,
+      "name": "字符串过短",
+      "description": "超出范围的值 - 提供大于允许的最大长度或小于要求的最小长度的字符串。"
+    },
+    {
+      "id": 16571467,
+      "name": "对象级别授权缺失",
+      "description": "对象级别授权缺失 - 用户在没有适当授权的情况下访问或操作数据对象。"
+    },
+    {
+      "id": 16571468,
+      "name": "访问控制",
+      "description": "基于角色、权限或属性来限制用户能访问哪些资源、能执行哪些操作"
+    },
+    {
+      "id": 16571469,
+      "name": "认证失败",
+      "description": "认证失败 - 认证薄弱、配置错误或被绕过,导致未授权访问。"
+    },
+    {
+      "id": 16571470,
+      "name": "SQL注入",
+      "description": "在输入字段中插入恶意SQL代码,测试是否存在SQL注入漏洞。"
+    },
+    {
+      "id": 16571471,
+      "name": "XSS注入",
+      "description": "注入JavaScript或HTML标签来测试跨站点脚本漏洞。"
+    },
+    {
+      "id": 16571472,
+      "name": "模糊输入",
+      "description": "发送大型或随机生成的有效载荷,以测试输入的有效性和稳定性。"
+    },
+    {
+      "id": 16571473,
+      "name": "命令行注入",
+      "description": "将shell命令插入输入以测试命令执行漏洞。"
+    },
+    {
+      "id": 16571474,
+      "name": "JSON注入",
+      "description": "插入恶意或意外的JSON结构来测试解析和验证。"
+    },
+    {
+      "id": 16571475,
+      "name": "NoSQL注入",
+      "description": "提供NoSQL特定的恶意查询或操作符来测试注入漏洞。"
+    },
+    {
+      "id": 16571476,
+      "name": "其他",
+      "description": "其他未归属的测试用例。"
+    }
+  ],
+  "projectAssociations": [],
+  "moduleSettings": [
+    {
+      "id": "6804672",
+      "name": "默认模块",
+      "description": "",
+      "moduleVariables": [],
+      "openApiInfo": {}
+    }
+  ]
+}

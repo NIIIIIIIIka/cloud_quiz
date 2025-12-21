@@ -22,8 +22,7 @@ public class JwtFilter implements Filter {
   // 放行路径 (无需token)
   private static final List<String> WHITE_LIST = Arrays.asList(
       "/api/user/register",
-      "/api/user/login",
-          "/api/user/users"
+      "/api/user/login"
   );
 
   public JwtFilter(JwtUtil jwtUtil) {
@@ -37,7 +36,6 @@ public class JwtFilter implements Filter {
     HttpServletResponse response = (HttpServletResponse) servletResponse;
 
     String path = request.getRequestURI();
-
     // 放行白名单
     if (isWhiteListed(path)) {
       chain.doFilter(request, response);

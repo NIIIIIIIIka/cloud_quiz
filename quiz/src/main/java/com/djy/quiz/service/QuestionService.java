@@ -13,4 +13,5 @@ public interface QuestionService {
   Question getById(Integer questionId);
 
   List<Question> listAll();
+
 }
