@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djy.quiz.mapper.UserMapper">
+
+  <resultMap id="UserMap" type="com.djy.quiz.pojo.model.User">
+    <id property="userId" column="user_id" />
+    <result property="userName" column="user_name" />
+    <result property="userPassword" column="user_password" />
+    <result property="userRole" column="user_role" />
+    <result property="isDeleted" column="is_deleted" />
+    <result property="createdAt" column="created_at" />
+    <result property="updatedAt" column="updated_at" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    user_id, user_name, user_password, user_role, is_deleted, created_at, updated_at
+  </sql>
+
+  <insert id="insert" parameterType="com.djy.quiz.pojo.model.User" useGeneratedKeys="true" keyProperty="userId">
+    INSERT INTO users (user_name, user_password, user_role)
+    VALUES (#{userName}, #{userPassword}, #{userRole})
+  </insert>
+
+  <update id="update" parameterType="com.djy.quiz.pojo.model.User">
+    UPDATE users
+    SET user_name = #{userName},
+        user_password = #{userPassword},
+        user_role = #{userRole}
+    WHERE user_id = #{userId} AND is_deleted = 0
+  </update>
+
+  <update id="softDelete">
+    UPDATE users SET is_deleted = 1 WHERE user_id = #{userId}
+  </update>
+
+  <select id="findById" parameterType="long" resultMap="UserMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM users WHERE user_id = #{userId} AND is_deleted = 0
+  </select>
+
+  <select id="findByUserName" parameterType="string" resultMap="UserMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM users WHERE user_name = #{userName} AND is_deleted = 0
+  </select>
+
+  <select id="listAll" resultMap="UserMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM users WHERE is_deleted = 0 ORDER BY user_id DESC
+  </select>
+</mapper>

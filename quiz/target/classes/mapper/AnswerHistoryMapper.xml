@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djy.quiz.mapper.AnswerHistoryMapper">
+
+  <resultMap id="AnswerHistoryMap" type="com.djy.quiz.pojo.model.AnswerHistory">
+    <id property="answerHistoryId" column="answer_history_id" />
+    <result property="userId" column="user_id" />
+    <result property="questionId" column="question_id" />
+    <result property="selectedOption" column="selected_option" />
+    <result property="isCorrect" column="is_correct" />
+    <result property="answerTime" column="answer_time" />
+    <result property="isDeleted" column="is_deleted" />
+    <result property="createdAt" column="created_at" />
+    <result property="updatedAt" column="updated_at" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    answer_history_id, user_id, question_id, selected_option, is_correct, answer_time, is_deleted, created_at, updated_at
+  </sql>
+
+  <insert id="insert" parameterType="com.djy.quiz.pojo.model.AnswerHistory" useGeneratedKeys="true" keyProperty="answerHistoryId">
+    INSERT INTO answer_history (user_id, question_id, selected_option, is_correct, answer_time)
+    VALUES (#{userId}, #{questionId}, #{selectedOption}, #{isCorrect}, #{answerTime})
+  </insert>
+
+  <update id="update" parameterType="com.djy.quiz.pojo.model.AnswerHistory">
+    UPDATE answer_history SET
+      user_id = #{userId},
+      question_id = #{questionId},
+      selected_option = #{selectedOption},
+      is_correct = #{isCorrect},
+      answer_time = #{answerTime}
+    WHERE answer_history_id = #{answerHistoryId} AND is_deleted = 0
+  </update>
+
+  <update id="softDelete">
+    UPDATE answer_history SET is_deleted = 1 WHERE answer_history_id = #{answerHistoryId}
+  </update>
+
+  <select id="findById" parameterType="long" resultMap="AnswerHistoryMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM answer_history WHERE answer_history_id = #{answerHistoryId} AND is_deleted = 0
+  </select>
+
+  <select id="listByUser" parameterType="long" resultMap="AnswerHistoryMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM answer_history WHERE user_id = #{userId} AND is_deleted = 0 ORDER BY answer_history_id DESC
+  </select>
+
+  <select id="listAll" resultMap="AnswerHistoryMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM answer_history WHERE is_deleted = 0 ORDER BY answer_history_id DESC
+  </select>
+</mapper>

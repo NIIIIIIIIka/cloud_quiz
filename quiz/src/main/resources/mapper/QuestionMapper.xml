@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djy.quiz.mapper.QuestionMapper">
+
+  <resultMap id="QuestionMap" type="com.djy.quiz.pojo.model.Question">
+    <id property="questionId" column="question_id" />
+    <result property="questionText" column="question_text" />
+    <result property="answer1Text" column="answer1_text" />
+    <result property="answer1Correct" column="answer1_correct" />
+    <result property="answer2Text" column="answer2_text" />
+    <result property="answer2Correct" column="answer2_correct" />
+    <result property="answer3Text" column="answer3_text" />
+    <result property="answer3Correct" column="answer3_correct" />
+    <result property="answer4Text" column="answer4_text" />
+    <result property="answer4Correct" column="answer4_correct" />
+    <result property="isDeleted" column="is_deleted" />
+    <result property="createdAt" column="created_at" />
+    <result property="updatedAt" column="updated_at" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    question_id, question_text,
+    answer1_text, answer1_correct,
+    answer2_text, answer2_correct,
+    answer3_text, answer3_correct,
+    answer4_text, answer4_correct,
+    is_deleted, created_at, updated_at
+  </sql>
+
+  <insert id="insert" parameterType="com.djy.quiz.pojo.model.Question" useGeneratedKeys="true" keyProperty="questionId">
+    INSERT INTO questions (
+      question_text,
+      answer1_text, answer1_correct,
+      answer2_text, answer2_correct,
+      answer3_text, answer3_correct,
+      answer4_text, answer4_correct
+    ) VALUES (
+      #{questionText},
+      #{answer1Text}, #{answer1Correct},
+      #{answer2Text}, #{answer2Correct},
+      #{answer3Text}, #{answer3Correct},
+      #{answer4Text}, #{answer4Correct}
+    )
+  </insert>
+
+  <update id="update" parameterType="com.djy.quiz.pojo.model.Question">
+    UPDATE questions SET
+      question_text = #{questionText},
+      answer1_text = #{answer1Text}, answer1_correct = #{answer1Correct},
+      answer2_text = #{answer2Text}, answer2_correct = #{answer2Correct},
+      answer3_text = #{answer3Text}, answer3_correct = #{answer3Correct},
+      answer4_text = #{answer4Text}, answer4_correct = #{answer4Correct}
+    WHERE question_id = #{questionId} AND is_deleted = 0
+  </update>
+
+  <update id="softDelete">
+    UPDATE questions SET is_deleted = 1 WHERE question_id = #{questionId}
+  </update>
+
+  <select id="findById" parameterType="int" resultMap="QuestionMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM questions WHERE question_id = #{questionId} AND is_deleted = 0
+  </select>
+
+  <select id="listAll" resultMap="QuestionMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM questions WHERE is_deleted = 0 ORDER BY question_id DESC
+  </select>
+</mapper>
