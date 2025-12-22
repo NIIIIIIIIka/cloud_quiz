@@ -42,3 +42,39 @@ cors:
   allow-headers:  "${CORS_ALLOW_HEADERS:Content-Type,Authorization}"
   allow-credentials: ${CORS_ALLOW_CREDENTIALS:false}
 
+feign:
+  circuitbreaker:
+    enabled: true # 启用熔断器
+  client:
+    config:
+      default:
+        connectTimeout: 3000 # 连接超时 3 秒
+        readTimeout: 5000 # 读取超时 5 秒
+
+# Resilience4j 熔断器配置
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service: # 针对 user-service 的熔断器配置
+        failureRateThreshold: 50 # 失败率阈值 50%
+        slidingWindowSize: 10 # 滑动窗口 10 次请求
+        slidingWindowType: COUNT_BASED # 基于请求数的滑动窗口
+      question-service: # 针对 catalog-service 的熔断器配置
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+# 外部服务配置（本地开发使用，生产环境使用Nacos服务发现）
+services:
+  user:
+    url: ${SERVICES_USER_URL:http://user-service:8081}
+  question:
+    url: ${SERVICES_CATALOG_URL:http://question-service:8082}

@@ -50,7 +50,6 @@ public class UserController {
     return Result.ok(userService.getById(id));
   }
 
-
   // ========== 用户管理 ==========
   @GetMapping("/users")
   public Result<List<UserVO>> listUsers(HttpServletRequest request) {

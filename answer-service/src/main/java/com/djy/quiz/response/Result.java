@@ -69,4 +69,8 @@ public class Result<T> {
   public T getData() {
     return data;
   }
+
+  public boolean isSuccess() {
+    return code==200;
+  }
 }

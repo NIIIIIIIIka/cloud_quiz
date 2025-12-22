@@ -29,7 +29,7 @@ public class AnswerHistoryServiceImpl implements AnswerHistoryService {
   @Override
   public void delete(Long answerHistoryId) {
     System.out.println("delete id："+answerHistoryId);
-    answerHistoryMapper.softDelete(answerHistoryId);
+    answerHistoryMapper.hardDelete(answerHistoryId);
   }
 
   @Override
@@ -40,6 +40,7 @@ public class AnswerHistoryServiceImpl implements AnswerHistoryService {
 
   @Override
   public List<AnswerHistory> listByUser(Long userId) {
+
     return answerHistoryMapper.listByUser(userId);
   }
 

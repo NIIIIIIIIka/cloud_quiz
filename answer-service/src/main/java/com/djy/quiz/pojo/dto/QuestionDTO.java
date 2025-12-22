@@ -43,4 +43,8 @@ public class QuestionDTO {
     this.answer4Text = answer4Text;
     this.answer4Correct = answer4Correct;
   }
+
+  public QuestionDTO() {
+
+  }
 }

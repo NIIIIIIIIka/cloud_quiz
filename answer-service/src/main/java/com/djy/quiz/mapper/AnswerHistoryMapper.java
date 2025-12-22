@@ -13,7 +13,7 @@ public interface AnswerHistoryMapper {
   int update(AnswerHistory h);
 
   int softDelete(@Param("answerHistoryId") Long answerHistoryId);
-
+int hardDelete(@Param("answerHistoryId") Long answerHistoryId);
   AnswerHistory findById( Long answerHistoryId);
 
   List<AnswerHistory> listByUser(@Param("userId") Long userId);
