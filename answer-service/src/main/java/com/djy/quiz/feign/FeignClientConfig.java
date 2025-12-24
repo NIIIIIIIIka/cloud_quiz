@@ -1,5 +1,6 @@
 package com.djy.quiz.feign;
 
+import com.djy.quiz.util.JwtUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,12 +15,18 @@ import java.util.Objects;
 @Configuration
 public class FeignClientConfig {
 
+    private  final JwtUtil jwtUtil;
+
+    public FeignClientConfig(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
+
     @Bean
     public RequestInterceptor requestInterceptor() {
         return new FeignRequestInterceptor();
     }
 
-    public static class FeignRequestInterceptor implements RequestInterceptor {
+    public  class FeignRequestInterceptor implements RequestInterceptor {
         @Override
         public void apply(RequestTemplate template) {
             ServletRequestAttributes attributes =
@@ -37,10 +44,13 @@ public class FeignClientConfig {
                 }
 
                 String token = request.getHeader("Authorization");
+                token=jwtUtil.repackageToken(token);
                 System.out.println("传递的Token: " + token);
-
+                token = "Bearer " + token;
+                System.out.println("完整的Authorization头: " + token);
                 if (token != null && !token.isEmpty()) {
                     template.header("Authorization", token);
+                    template.header("X-Token-Source", "thread-local");
                 }
             }
         }

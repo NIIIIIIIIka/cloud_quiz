@@ -46,19 +46,25 @@ public class UserController {
 
   @GetMapping("/users/{id}")
   public Result<UserVO> getUser(@PathVariable("id") Long id, HttpServletRequest request) {
-    tools.checkAdmin(request);
+    if((!tools.checkAdmin(request))&&(!tools.checkSource(request))){
+      throw new IllegalArgumentException("checkAdmin checkSource无访问权限");
+    }
     return Result.ok(userService.getById(id));
   }
 
   // ========== 用户管理 ==========
   @GetMapping("/users")
   public Result<List<UserVO>> listUsers(HttpServletRequest request) {
-    tools.checkAdmin(request);
+    if(!tools.checkAdmin(request)){
+      throw new IllegalArgumentException("无管理员权限");
+    }
     return Result.ok(userService.listAll());
   }
   @PutMapping("/users/{id}")
   public Result<Void> updateUser(@PathVariable("id") Long id, @RequestBody User user, HttpServletRequest request) {
-    tools.checkAdmin(request);
+    if(!tools.checkAdmin(request)){
+      throw new IllegalArgumentException("无管理员权限");
+    }
     user.setUserId(id);
     userService.update(user);
     return Result.ok();
@@ -66,7 +72,9 @@ public class UserController {
 
   @DeleteMapping("/users/{id}")
   public Result<Void> deleteUser(@PathVariable("id") Long id, HttpServletRequest request) {
-    tools.checkAdmin(request);
+    if(!tools.checkAdmin(request)){
+      throw new IllegalArgumentException("无管理员权限");
+    }
     userService.delete(id);
     return Result.ok();
   }

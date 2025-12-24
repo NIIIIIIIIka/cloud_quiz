@@ -48,50 +48,50 @@ public class AnswerController {
     public Result<AnswerResultVO> submit(@RequestBody @Valid AnswerSubmitDTO dto,
                                          HttpServletRequest request){
         Long userId = (Long) request.getAttribute("userId");
-//        Result<UserVO> user =userServiceClient.getUserById(userId);
+        Result<UserVO> user =userServiceClient.getUserById(userId);
         Result<QuestionDTO> question = questionServiceClient.getQuestionById(dto.getQuestionId());
-        boolean correct = isCorrect(question.getData(), dto.getSelectedOption());
-
-        AnswerHistory h = new AnswerHistory();
-        h.setUserId(userId);
-        h.setQuestionId(dto.getQuestionId());
-        h.setSelectedOption(dto.getSelectedOption());
-        h.setIsCorrect(correct ? 1 : 0);
-        h.setAnswerTime(LocalDateTime.now());
-        answerHistoryService.add(h);
-
-        AnswerResultVO vo = new AnswerResultVO();
-        vo.setAnswerHistoryId(h.getAnswerHistoryId());
-        vo.setQuestionId(dto.getQuestionId());
-        vo.setSelectedOption(dto.getSelectedOption());
-        vo.setIsCorrect(correct);
-        vo.setAnswerTime(h.getAnswerTime());
-        return Result.ok(vo);
-        //        if(user.isSuccess()&&question.isSuccess()) {
-//            boolean correct = isCorrect(question.getData(), dto.getSelectedOption());
+//        boolean correct = isCorrect(question.getData(), dto.getSelectedOption());
 //
-//            AnswerHistory h = new AnswerHistory();
-//            h.setUserId(userId);
-//            h.setQuestionId(dto.getQuestionId());
-//            h.setSelectedOption(dto.getSelectedOption());
-//            h.setIsCorrect(correct ? 1 : 0);
-//            h.setAnswerTime(LocalDateTime.now());
-//            answerHistoryService.add(h);
+//        AnswerHistory h = new AnswerHistory();
+//        h.setUserId(userId);
+//        h.setQuestionId(dto.getQuestionId());
+//        h.setSelectedOption(dto.getSelectedOption());
+//        h.setIsCorrect(correct ? 1 : 0);
+//        h.setAnswerTime(LocalDateTime.now());
+//        answerHistoryService.add(h);
 //
-//            AnswerResultVO vo = new AnswerResultVO();
-//            vo.setAnswerHistoryId(h.getAnswerHistoryId());
-//            vo.setQuestionId(dto.getQuestionId());
-//            vo.setSelectedOption(dto.getSelectedOption());
-//            vo.setIsCorrect(correct);
-//            vo.setAnswerTime(h.getAnswerTime());
-//            return Result.ok(vo);
-//        } else if (user.isSuccess()) {
-//            log.error("获取题目失败: code={}, message={}", question.getCode(), question.getMessage());
-//            return Result.error(question.getCode(), "获取题目失败: " + question.getMessage());
-//        }else {
-//            log.error("获取用户失败: code={}, message={}", user.getCode(), user.getMessage());
-//            return Result.error(user.getCode(), "获取题目失败: " + user.getMessage());
-//        }
+//        AnswerResultVO vo = new AnswerResultVO();
+//        vo.setAnswerHistoryId(h.getAnswerHistoryId());
+//        vo.setQuestionId(dto.getQuestionId());
+//        vo.setSelectedOption(dto.getSelectedOption());
+//        vo.setIsCorrect(correct);
+//        vo.setAnswerTime(h.getAnswerTime());
+//        return Result.ok(vo);
+        if(user.isSuccess()&&question.isSuccess()) {
+            boolean correct = isCorrect(question.getData(), dto.getSelectedOption());
+
+            AnswerHistory h = new AnswerHistory();
+            h.setUserId(userId);
+            h.setQuestionId(dto.getQuestionId());
+            h.setSelectedOption(dto.getSelectedOption());
+            h.setIsCorrect(correct ? 1 : 0);
+            h.setAnswerTime(LocalDateTime.now());
+            answerHistoryService.add(h);
+
+            AnswerResultVO vo = new AnswerResultVO();
+            vo.setAnswerHistoryId(h.getAnswerHistoryId());
+            vo.setQuestionId(dto.getQuestionId());
+            vo.setSelectedOption(dto.getSelectedOption());
+            vo.setIsCorrect(correct);
+            vo.setAnswerTime(h.getAnswerTime());
+            return Result.ok(vo);
+        } else if (user.isSuccess()) {
+            log.error("获取题目失败: code={}, message={}", question.getCode(), question.getMessage());
+            return Result.error(question.getCode(), "获取题目失败: " + question.getMessage());
+        }else {
+            log.error("获取用户失败: code={}, message={}", user.getCode(), user.getMessage());
+            return Result.error(user.getCode(), "获取题目失败: " + user.getMessage());
+        }
     }
 
     /**
@@ -101,15 +101,15 @@ public class AnswerController {
     public Result<List<AnswerResultVO>> HistoryByUserId(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         Result<UserVO> result = userServiceClient.getUserById(userId);
-//        if (result.isSuccess()) {
+        if (result.isSuccess()) {
             // 可以在这里添加answer-service特有的业务逻辑
             List<AnswerResultVO> list = answerHistoryService.listByUser(userId)
                     .stream()
                     .map(this::toVO)
                     .collect(Collectors.toList());
             return Result.ok(list);
-//        }
-//        return Result.error(404, "用户不存在");
+        }
+        return Result.error(404, "用户不存在");
     }
     @GetMapping("/history/all")
     public Result<List<AnswerHistory>> listHistory(HttpServletRequest request) {

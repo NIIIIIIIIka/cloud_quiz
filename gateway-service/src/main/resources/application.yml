@@ -1,0 +1,86 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: gateway-service
+  profiles:
+    active: dev
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        # 用户服务路由
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - name: JwtFilter
+              args:
+                whiteList: /api/user/register,/api/user/login,/api/user/health
+            - StripPrefix=0
+
+        # 题目服务路由
+        - id: question-service
+          uri: lb://question-service
+          predicates:
+            - Path=/api/question/**
+          filters:
+            - name: JwtFilter
+            - StripPrefix=0
+
+        # 答题服务路由
+        - id: answer-service
+          uri: lb://answer-service
+          predicates:
+            - Path=/api/answer/**
+          filters:
+            - name: JwtFilter
+            - StripPrefix=0
+
+        # 健康检查路由
+        - id: health-check
+          uri: lb://user-service
+          predicates:
+            - Path=/health/**
+          filters:
+            - StripPrefix=0
+
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:localhost:8848}
+        service: ${SPRING_CLOUD_NACOS_DISCOVERY_SERVICE:gateway-service}
+      config:
+        enabled: false
+
+  # 全局跨域配置
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    allow-credentials: false
+
+# JWT配置
+jwt:
+  secret: ${JWT_SECRET:ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+# Actuator配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# 日志配置
+logging:
+  level:
+    com.djy.quiz: DEBUG
+    org.springframework.cloud.gateway: DEBUG

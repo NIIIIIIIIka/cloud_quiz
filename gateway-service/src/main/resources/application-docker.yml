@@ -1,0 +1,28 @@
+## Docker环境配置
+server:
+  port: 8090
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR:nacos:8848}
+        enabled: ${SPRING_CLOUD_NACOS_DISCOVERY_ENABLED:true}
+    
+    gateway:
+      httpclient:
+        pool:
+          type: elastic
+          max-idle-time: 60s
+
+## JWT配置
+jwt:
+  secret: ${JWT_SECRET:ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+## 跨域配置
+cors:
+  allow-origins: "*"
+  allow-methods: "GET,POST,PUT,DELETE,OPTIONS"
+  allow-headers: "Content-Type,Authorization,X-Token-Source,X-User-Id,X-User-Name,X-User-Role"
+  allow-credentials: false

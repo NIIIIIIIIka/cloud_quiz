@@ -9,11 +9,23 @@ public class Tools {
     /**
      * 管理员鉴权校验（抛出异常由全局处理器返回错误）
      */
-    public void checkAdmin(HttpServletRequest request) {
+    public boolean checkAdmin(HttpServletRequest request) {
         Integer role = (Integer) request.getAttribute("role");
         if (role == null || role != RoleConstant.ADMIN) {
-            throw new IllegalArgumentException("无管理员权限");
+            return false;
         }
+        return true;
+    }
+
+    public boolean checkSource(HttpServletRequest request) {
+        String repackaged = (String) request.getAttribute("repackaged");
+
+        if (repackaged == null || !repackaged .equals( "true")) {
+            System.out.println("repackaged != \"true\":  "+repackaged);
+            return false;
+        }
+        System.out.println("repackaged == \"true\":  "+repackaged);
+        return true;
     }
 
 }

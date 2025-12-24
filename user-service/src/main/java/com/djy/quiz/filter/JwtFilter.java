@@ -49,18 +49,32 @@ public class JwtFilter implements Filter {
     }
 
     String authHeader = request.getHeader("Authorization");
+    String tokenSource = request.getHeader("X-Token-Source");
+    String token = authHeader.substring(7);
+    if (tokenSource != null) {
+      System.out.println("Token来源: {}"+ tokenSource);
+      try {
+        Claims claims = jwtUtil.parseToken(token);
+        request.setAttribute("repackaged", claims.get("repackaged"));
+        System.out.println("claims.get(\"repackaged\"):"+claims.get("repackaged"));
+      }
+      catch (Exception e){
+        System.out.println("重新包装的token无效");
+      }
+    }
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       writeError(response, HttpServletResponse.SC_UNAUTHORIZED, "missing or invalid token");
       return;
     }
 
-    String token = authHeader.substring(7);
+
     try {
       Claims claims = jwtUtil.parseToken(token);
       // 挂载到 request 供后续使用
       request.setAttribute("userId", Long.valueOf(claims.getSubject()));
       request.setAttribute("userName", claims.get("userName"));
       request.setAttribute("role", claims.get("role"));
+      //如果有repackaged
       chain.doFilter(request, response);
     } catch (Exception e) {
       writeError(response, HttpServletResponse.SC_UNAUTHORIZED, "token invalid or expired");
