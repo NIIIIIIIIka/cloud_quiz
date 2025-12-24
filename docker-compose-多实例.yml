@@ -1,0 +1,374 @@
+version: '3.8'
+
+# 自定义网络（隔离微服务通信）
+networks:
+  quiz-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# 数据卷（持久化数据）
+volumes:
+  nacos-data:
+  nacos-logs:
+  user-data:
+  question-data:
+  answer-data:
+
+# 服务配置
+services:
+  # ====================== 中间件服务 ======================
+  # Nacos 服务注册/发现中心
+  nacos:
+    image: nacos/nacos-server:v3.1.0
+    container_name: nacos
+    environment:
+      - MODE=standalone
+      - NACOS_AUTH_ENABLE=false
+      - NACOS_SERVER_PORT=8848
+      - NACOS_AUTH_TOKEN=MzJieXRlc2VjcmV0a2V5LTMyYnl0ZXNlY3JldGtleS0=
+      - NACOS_AUTH_IDENTITY_KEY=serverIdentity
+      - NACOS_AUTH_IDENTITY_VALUE=security
+      - NACOS_CORE_API_COMPATIBILITY_ENABLED=true
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+      - JVM_XMN=256m
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+      - "88:8080"
+    volumes:
+      - nacos-data:/home/nacos/data
+      - nacos-logs:/home/nacos/logs
+    networks:
+      - quiz-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8848/nacos/"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  # ====================== 数据库服务 ======================
+  # 用户服务数据库
+  user-db:
+    image: mysql:8
+    container_name: user-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: quiz
+    ports:
+      - "3307:3306"
+    volumes:
+      - user-data:/var/lib/mysql
+      - ./mysql/user_init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - quiz-network
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+8:00
+      - --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  # 题目服务数据库
+  question-db:
+    image: mysql:8
+    container_name: question-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: quiz
+    ports:
+      - "3308:3306"
+    volumes:
+      - question-data:/var/lib/mysql
+      - ./mysql/question_init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - quiz-network
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+8:00
+      - --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # 答题服务数据库
+  answer-db:
+    image: mysql:8
+    container_name: answer-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: quiz
+    ports:
+      - "3309:3306"
+    volumes:
+      - answer-data:/var/lib/mysql
+      - ./mysql/answer_init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - quiz-network
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+8:00
+      - --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ====================== 微服务 ======================
+  # 用户服务 - 实例1
+  user-service-1:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-user-service:1.0.0
+    container_name: user-service-1
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://user-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=user-service
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - SERVER_PORT=8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      user-db:
+        condition: service_started
+    networks:
+      - quiz-network
+    restart: unless-stopped
+
+  # 用户服务 - 实例2
+  user-service-2:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-user-service:1.0.0
+    container_name: user-service-2
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://user-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=user-service
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - SERVER_PORT=8086
+    ports:
+      - "8086:8086"
+    depends_on:
+      user-db:
+        condition: service_started
+    networks:
+      - quiz-network
+    restart: unless-stopped
+
+  # 题目服务 - 实例1
+  question-service-1:
+    build:
+      context: ./question-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-question-service:1.0.0
+    container_name: question-service-1
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://question-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=question-service
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+      - SERVER_PORT=8082
+    ports:
+      - "8082:8082"
+    depends_on:
+      nacos:
+        condition: service_started
+      question-db:
+        condition: service_started
+    networks:
+      - quiz-network
+    restart: unless-stopped
+
+  # 题目服务 - 实例2
+  question-service-2:
+    build:
+      context: ./question-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-question-service:1.0.0
+    container_name: question-service-2
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://question-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=question-service
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+      - SERVER_PORT=8087
+    ports:
+      - "8087:8087"
+    depends_on:
+      nacos:
+        condition: service_started
+      question-db:
+        condition: service_started
+    networks:
+      - quiz-network
+    restart: unless-stopped
+
+  # 题目服务 - 实例3
+  question-service-3:
+    build:
+      context: ./question-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-question-service:1.0.0
+    container_name: question-service-3
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://question-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=question-service
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+      - SERVER_PORT=8088
+    ports:
+      - "8088:8088"
+    depends_on:
+      nacos:
+        condition: service_started
+      question-db:
+        condition: service_started
+    networks:
+      - quiz-network
+    restart: unless-stopped
+
+  # 答题服务 - 实例1
+  answer-service-1:
+    build:
+      context: ./answer-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-answer-service:1.0.0
+    container_name: answer-service-1
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://answer-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=answer-service
+      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_USER-SERVICE_CONNECTTIMEOUT=5000
+      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_USER-SERVICE_READTIMEOUT=5000
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+      - SERVER_PORT=8083
+    ports:
+      - "8083:8083"
+    depends_on:
+      nacos:
+        condition: service_started
+      answer-db:
+        condition: service_started
+    networks:
+      - quiz-network
+    restart: unless-stopped
+
+  # 答题服务 - 实例2
+  answer-service-2:
+    build:
+      context: ./answer-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-answer-service:1.0.0
+    container_name: answer-service-2
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://answer-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=answer-service
+      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_USER-SERVICE_CONNECTTIMEOUT=5000
+      - SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_USER-SERVICE_READTIMEOUT=5000
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+      - SERVER_PORT=8089
+    ports:
+      - "8089:8089"
+    depends_on:
+      nacos:
+        condition: service_started
+      answer-db:
+        condition: service_started
+    networks:
+      - quiz-network
+    restart: unless-stopped
+
+  # ====================== 网关服务 ======================
+  gateway-service:
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-gateway-service:2.0.0
+    container_name: gateway-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=gateway-service
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+    ports:
+      - "8090:8090"
+    depends_on:
+      nacos:
+        condition: service_started
+    networks:
+      - quiz-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped

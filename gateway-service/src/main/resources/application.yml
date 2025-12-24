@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: gateway-service
-  profiles:
-    active: dev
   cloud:
     gateway:
       discovery:
@@ -19,7 +17,7 @@ spring:
           predicates:
             - Path=/api/user/**
           filters:
-            - name: JwtFilter
+            - name: JwtGatewayFilter
               args:
                 whiteList: /api/user/register,/api/user/login,/api/user/health
             - StripPrefix=0
@@ -30,7 +28,7 @@ spring:
           predicates:
             - Path=/api/question/**
           filters:
-            - name: JwtFilter
+            - name: JwtGatewayFilter
             - StripPrefix=0
 
         # 答题服务路由
@@ -39,7 +37,7 @@ spring:
           predicates:
             - Path=/api/answer/**
           filters:
-            - name: JwtFilter
+            - name: JwtGatewayFilter
             - StripPrefix=0
 
         # 健康检查路由

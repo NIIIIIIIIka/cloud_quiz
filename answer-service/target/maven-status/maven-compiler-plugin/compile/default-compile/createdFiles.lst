@@ -1,6 +1,7 @@
 com\djy\quiz\response\Result.class
 com\djy\quiz\feign\UserServiceClient.class
 com\djy\quiz\config\PasswordConfig.class
+com\djy\quiz\util\Tools$UserInfo.class
 com\djy\quiz\pojo\dto\AnswerSubmitDTO.class
 com\djy\quiz\pojo\dto\QuestionDTO.class
 com\djy\quiz\controller\AnswerController.class
@@ -17,9 +18,9 @@ com\djy\quiz\constant\RoleConstant.class
 com\djy\quiz\mapper\AnswerHistoryMapper.class
 com\djy\quiz\service\AnswerHistoryService.class
 com\djy\quiz\feign\FeignClientConfig.class
+com\djy\quiz\util\Tools$UserInfo$UserInfoBuilder.class
 com\djy\quiz\util\Tools.class
 com\djy\quiz\pojo\vo\UserVO.class
-com\djy\quiz\filter\JwtFilter.class
 com\djy\quiz\service\impl\AnswerHistoryServiceImpl.class
 com\djy\quiz\fallback\QuestionServiceFallback.class
 com\djy\quiz\feign\FeignClientConfig$FeignRequestInterceptor.class

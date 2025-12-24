@@ -47,7 +47,8 @@ public class AnswerController {
     @PostMapping("/submit")
     public Result<AnswerResultVO> submit(@RequestBody @Valid AnswerSubmitDTO dto,
                                          HttpServletRequest request){
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = Tools.getUserId();
+        System.out.println("userId: "+userId);
         Result<UserVO> user =userServiceClient.getUserById(userId);
         Result<QuestionDTO> question = questionServiceClient.getQuestionById(dto.getQuestionId());
 //        boolean correct = isCorrect(question.getData(), dto.getSelectedOption());
@@ -99,7 +100,7 @@ public class AnswerController {
      */
     @GetMapping("/history/user/{id}")
     public Result<List<AnswerResultVO>> HistoryByUserId(HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = Tools.getUserId();
         Result<UserVO> result = userServiceClient.getUserById(userId);
         if (result.isSuccess()) {
             // 可以在这里添加answer-service特有的业务逻辑
@@ -118,7 +119,7 @@ public class AnswerController {
     }
     @GetMapping("/history/my")
     public Result<List<AnswerResultVO>> myHistory(HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        Long userId = Tools.getUserId();
         List<AnswerResultVO> list = answerHistoryService.listByUser(userId)
                 .stream()
                 .map(this::toVO)
@@ -126,7 +127,8 @@ public class AnswerController {
         return Result.ok(list);
     }
     @GetMapping("/history/{id}")
-    public Result<AnswerHistory> getHistoryById(@PathVariable("id") Long id, HttpServletRequest request) {
+    public Result<AnswerHistory> getHistoryById(@PathVariable("id") Long id,
+                                                HttpServletRequest request) {
         tools.checkAdmin(request);
         AnswerHistory history=answerHistoryService.getById(id);
         if(history!=null){

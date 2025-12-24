@@ -1,24 +1,17 @@
 package com.djy.quiz.feign;
 
-import com.djy.quiz.util.JwtUtil;
+import com.djy.quiz.util.Tools;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import java.util.Enumeration;
-import java.util.Objects;
 
 @Configuration
 public class FeignClientConfig {
+    private final Tools tools;
 
-    private  final JwtUtil jwtUtil;
-
-    public FeignClientConfig(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
+    public FeignClientConfig(Tools tools) {
+        this.tools = tools;
     }
 
     @Bean
@@ -26,33 +19,56 @@ public class FeignClientConfig {
         return new FeignRequestInterceptor();
     }
 
-    public  class FeignRequestInterceptor implements RequestInterceptor {
+    public class FeignRequestInterceptor implements RequestInterceptor {
         @Override
         public void apply(RequestTemplate template) {
-            ServletRequestAttributes attributes =
-                    (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            // 从UserContext获取用户信息
+            Long userId = tools.getUserId();
+            String userName = tools.getUserName();
+            String userRole = tools.getUserRole();
+            String tokenSource ="answer-service";
+            Boolean repackaged = tools.isTokenRepackaged();
+            String authorization = tools.getAuthorization();
 
-            if (Objects.nonNull(attributes)) {
-                HttpServletRequest request = attributes.getRequest();
+            System.out.println("Feign调用 - 用户信息: userId=" + userId +
+                    ", userName=" + userName + ", role=" + userRole);
 
-                // 打印所有头部信息
-                Enumeration<String> headerNames = request.getHeaderNames();
-                while (headerNames.hasMoreElements()) {
-                    String name = headerNames.nextElement();
-                    String value = request.getHeader(name);
-                    System.out.println("Header: " + name + " = " + value);
-                }
-
-                String token = request.getHeader("Authorization");
-                token=jwtUtil.repackageToken(token);
-                System.out.println("传递的Token: " + token);
-                token = "Bearer " + token;
-                System.out.println("完整的Authorization头: " + token);
-                if (token != null && !token.isEmpty()) {
-                    template.header("Authorization", token);
-                    template.header("X-Token-Source", "thread-local");
-                }
+            // 传递原始Authorization头
+            if (authorization != null && !authorization.isEmpty()) {
+                template.header("Authorization", authorization);
+                System.out.println("Feign传递Authorization: " + authorization);
             }
+
+            // 传递网关添加的用户信息头
+            if (userId != null) {
+                template.header("X-User-Id", userId.toString());
+            }
+
+            if (userName != null) {
+                template.header("X-User-Name", userName);
+            }
+
+            if (userRole != null) {
+                template.header("X-User-Role", userRole);
+            }
+
+            if (tokenSource != null) {
+                template.header("X-Token-Source", tokenSource);
+            }
+
+            if (repackaged != null) {
+                template.header("X-Token-Repackaged", repackaged.toString());
+            }
+
+            // 添加Feign调用的标识头
+            template.header("X-Feign-Call", "true");
+            template.header("X-Caller-Service", getServiceName());
+        }
+
+        private String getServiceName() {
+            // 这里可以根据需要返回当前服务名
+            // 可以从配置中读取，或者硬编码
+            return System.getProperty("spring.application.name", "unknown-service");
         }
     }
 }

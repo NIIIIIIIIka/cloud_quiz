@@ -16,6 +16,18 @@ spring:
         heart-beat-timeout: 15000
       config:
         enabled: ${SPRING_CLOUD_NACOS_CONFIG_ENABLED:false}
+    openfeign:
+      circuitbreaker:
+        enabled: true  # 确保这个开启
+        group:
+          enabled: true
+      # 添加以下配置
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 10000
+            loggerLevel: basic
   application:
     name: answer-service
   datasource:

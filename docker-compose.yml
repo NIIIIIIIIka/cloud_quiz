@@ -44,12 +44,12 @@ services:
       - nacos-logs:/home/nacos/logs
     networks:
       - quiz-network
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:8848/nacos/"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 10
-    #   start_period: 30s
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8848/nacos/"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     restart: unless-stopped
 
   # ====================== 数据库服务 ======================
@@ -227,37 +227,37 @@ services:
     restart: unless-stopped
 
   # # ====================== 网关服务 ======================
-  # gateway-service:
-  #   build:
-  #     context: ./gateway-service
-  #     dockerfile: Dockerfile
-  #   image: quiz-cloud-gateway-service:2.0.0
-  #   container_name: gateway-service
-  #   environment:
-  #     - SPRING_PROFILES_ACTIVE=docker
-  #     - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
-  #     - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED= true
-  #     - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
-  #     - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=gateway-service
-      # - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
-  #     - JWT_EXPIRATION=86400000
-  #   ports:
-  #     - "8090:8090"
-  #   depends_on:
-  #     nacos:
-  #       condition: service_started
-  #     user-service:
-  #       condition: service_started
-  #     question-service:
-  #       condition: service_started
-  #     answer-service:
-  #       condition: service_started
-  #   networks:
-  #     - quiz-network
-  #   healthcheck:
-  #     test: ["CMD", "curl", "-f", "http://localhost:8090/actuator/health"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 3
-  #     start_period: 30s
-  #   restart: unless-stopped
+  gateway-service:
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-gateway-service:2.0.0
+    container_name: gateway-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=false
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED= true
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=gateway-service
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+    ports:
+      - "8090:8090"
+    depends_on:
+      nacos:
+        condition: service_started
+      user-service:
+        condition: service_started
+      question-service:
+        condition: service_started
+      answer-service:
+        condition: service_started
+    networks:
+      - quiz-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped

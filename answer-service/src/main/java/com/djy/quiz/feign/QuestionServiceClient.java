@@ -3,6 +3,7 @@ package com.djy.quiz.feign;
 import java.util.List;
 
 import com.djy.quiz.fallback.QuestionServiceFallback;
+import com.djy.quiz.fallback.UserServiceFallback;
 import com.djy.quiz.pojo.dto.QuestionDTO;
 import com.djy.quiz.response.Result;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "question-service",
         path = "/api/quiz",
-        fallback = QuestionServiceFallback.class  // 指定Fallback类
+        fallback = QuestionServiceFallback.class,  // 指定Fallback类
+        fallbackFactory = UserServiceFallback.class
 )
 public interface QuestionServiceClient {
 

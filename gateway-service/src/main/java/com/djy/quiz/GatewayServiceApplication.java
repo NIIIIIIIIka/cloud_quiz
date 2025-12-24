@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient // 启用 Nacos 服务发现
 public class GatewayServiceApplication {
     public static void main(String[] args) {
-        System.out.println("这是最新的gateway");
+//        System.out.println("这是最新的gateway");
         SpringApplication.run(GatewayServiceApplication.class, args);
     }
 
