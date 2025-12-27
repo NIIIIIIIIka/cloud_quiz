@@ -1,0 +1,88 @@
+# Nacos: dev命名空间 > answer-service.yaml
+
+server:
+  port: ${SERVER_PORT:8083}
+
+spring:
+  application:
+    name: answer-service
+  
+  # 数据源配置
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql:3306/quiz_answer?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.djy.quiz.answer.pojo.model
+
+# 服务特定配置
+service:
+  answer:
+    # 答题限制
+    limits:
+      max-questions-per-exam: 100
+      max-exam-duration: 180  # 3小时（分钟）
+      review-window: 7        # 答题后可查看答案的时间（天）
+    
+    # 自动评分
+    auto-grading:
+      enabled: true
+      accuracy: 0.95          # 95%相似度认为是正确
+      programming:
+        timeout: 30           # 编程题超时时间（秒）
+        memory-limit: 256     # 内存限制（MB）
+    
+    # 防作弊
+    anti-cheat:
+      enabled: true
+      switch-tab-detection: true
+      copy-paste-detection: true
+      fullscreen-required: false
+
+# Feign客户端配置
+feign:
+  client:
+    config:
+      user-service:
+        connectTimeout: 3000
+        readTimeout: 5000
+      question-service:
+        connectTimeout: 3000
+        readTimeout: 5000
+  
+  circuitbreaker:
+    enabled: true
+
+# Resilience4j熔断器配置
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+      question-service:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+
+# 外部服务URL（本地开发备用）
+services:
+  user:
+    url: ${SERVICES_USER_URL:http://user-service:8081}
+  question:
+    url: ${SERVICES_QUESTION_URL:http://question-service:8082}
+
+# 答题统计
+statistics:
+  update-interval: 300s  # 5分钟更新一次统计
+  retention-days: 365    # 统计数据保留365天

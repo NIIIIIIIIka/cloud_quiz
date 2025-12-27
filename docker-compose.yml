@@ -28,25 +28,14 @@ services:
       - MODE=standalone
       - NACOS_AUTH_ENABLE=false
       - NACOS_SERVER_PORT=8848
-      # 关键：移除或注释掉以下配置
-      # - NACOS_AUTH_TOKEN=MzJieXRlc2VjcmV0a2V5LTMyYnl0ZXNlY3JldGtleS0=  # Nacos 2.x 可能不需要
-      # - NACOS_AUTH_IDENTITY_KEY=serverIdentity  # Nacos 2.x 可能不需要
-      # - NACOS_AUTH_IDENTITY_VALUE=security  # Nacos 2.x 可能不需要
-      # - NACOS_CORE_API_COMPATIBILITY_ENABLED=true  # 这是 Nacos 3.x 的参数
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
-      # 关键：移除 NACOS_SERVER_IP，或设置为空
-      # - NACOS_SERVER_IP=  # 不设置这个
-      # 添加 PREFER_HOST_MODE（Nacos 2.x 的关键配置）
       - PREFER_HOST_MODE=hostname
-      # 关键：移除 NACOS_GRPC_PORT_OFFSET（Nacos 2.x 没有这个参数）
     ports:
       - "8848:8848"        # HTTP API端口
       - "9848:9848"        # gRPC端口
-      # 移除其他不必要的端口映射
-      # - "9849:9849"        # 通常不需要映射 raft 端口
-      - "88:8080"         # 这个不知道是什么端口
+      - "88:8080"        
     volumes:
       - nacos-data:/home/nacos/data
       - nacos-logs:/home/nacos/logs
@@ -149,7 +138,7 @@ services:
     container_name: user-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      # - SPRING_DATASOURCE_URL=jdbc:mysql://user-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://user-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=123456
       - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
@@ -182,7 +171,7 @@ services:
     container_name: question-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      # - SPRING_DATASOURCE_URL=jdbc:mysql://question-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://question-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=123456
       - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848

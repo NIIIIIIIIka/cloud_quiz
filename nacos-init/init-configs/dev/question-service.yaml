@@ -1,0 +1,85 @@
+# Nacos: dev命名空间 > question-service.yaml
+
+server:
+  port: ${SERVER_PORT:8082}
+
+spring:
+  application:
+    name: question-service
+  
+  # 数据源配置（会被datasource-question-service.yaml覆盖）
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql:3306/quiz_question?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.djy.quiz.question.pojo.model
+
+# 服务特定配置
+service:
+  question:
+    # 题目类型配置
+    types:
+      - SINGLE_CHOICE    # 单选题
+      - MULTIPLE_CHOICE  # 多选题
+      - TRUE_FALSE       # 判断题
+      - FILL_BLANK       # 填空题
+      - SHORT_ANSWER     # 简答题
+      - PROGRAMMING      # 编程题
+    
+    # 难度级别
+    difficulties:
+      - EASY
+      - MEDIUM
+      - HARD
+    
+    # 默认配置
+    default:
+      points: 10
+      time-limit: 300    # 5分钟
+      max-options: 10    # 最多选项数
+    
+  # 缓存配置
+  cache:
+    question-by-id:
+      ttl: 600s  # 10分钟
+    questions-by-category:
+      ttl: 300s  # 5分钟
+
+# 接口配置
+api:
+  question:
+    list:
+      default-page-size: 20
+      max-page-size: 100
+    search:
+      max-keywords: 5
+    import:
+      max-file-size: 10MB
+      allowed-types: xlsx,xls
+      batch-size: 100
+    
+  # 题库管理
+  quiz-bank:
+    max-questions-per-bank: 1000
+    default-categories:
+      - 计算机基础
+      - 算法与数据结构
+      - 数据库
+      - 网络
+      - 操作系统
+
+# 文件上传配置（题目图片等）
+upload:
+  question:
+    image:
+      max-size: 5MB
+      allowed-types: jpg,jpeg,png,gif
+      path: /data/uploads/questions/
+    attachment:
+      max-size: 20MB
+      allowed-types: pdf,doc,docx,txt,zip

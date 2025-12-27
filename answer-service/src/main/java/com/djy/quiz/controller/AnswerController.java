@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class AnswerController {
     private final Tools tools;
     private final QuestionServiceClient questionServiceClient;  // 使用Feign客户端
+    
     private final UserServiceClient userServiceClient;          // 使用Feign客户端
     private final AnswerHistoryService answerHistoryService;
 
