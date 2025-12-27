@@ -8,14 +8,28 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: ${SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR:nacos:8848}
+        server-addr: ${SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR:}
         enabled: ${SPRING_CLOUD_NACOS_DISCOVERY_ENABLED:true}
-        namespace: dev          # 与 user/question/answer-service 保持一致
-        group: dev              # 与 user/question/answer-service 保持一致
+        namespace: ${SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE}
+        group: ${SPRING_CLOUD_NACOS_DISCOVERY_GROUP}
         register-enabled: true
         ephemeral: true
+        heart-beat-interval: 5000
+        heart-beat-timeout: 15000
       config:
-        enabled: false
+        enabled: ${SPRING_CLOUD_NACOS_CONFIG_ENABLED:true}
+        import-check:
+          enabled: false
+        server-addr: nacos:8848    # Nacos地址（容器名）
+        namespace: ${SPRING_CLOUD_NACOS_CONFIG_NAMESPACE}
+        group: ${SPRING_CLOUD_NACOS_CONFIG_GROUP}
+        file-extension: yaml       # 配置文件格式
+        # 导入Nacos中的共享配置（按需）
+        shared-configs[0]:
+          data-id: common.yaml
+          group: ${SPRING_CLOUD_NACOS_CONFIG_GROUP}
+          refresh: true
+
     gateway:
       discovery:
         locator:

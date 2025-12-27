@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>答题系统 - 用户端</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; }
+    input, button { margin: 4px; }
+    table { margin-top: 10px; border-collapse: collapse; }
+    td, th { border: 1px solid #ccc; padding: 6px 12px; }
+  </style>
+</head>
+<body>
+  <h2 id="title">请先登录</h2>
+  <div id="login">
+    <input id="userName" placeholder="用户名"/>
+    <input id="password" type="password" placeholder="密码"/>
+    <button onclick="login()">登录</button>
+    <span id="msg" style="color:red"></span>
+  </div>
+  <div id="app" style="display:none">
+    <button onclick="loadQuestions()">刷新题目</button>
+    <div id="qList"></div>
+    <hr>
+    <button onclick="loadHistory()">刷新我的记录</button>
+    <table id="hist"></table>
+    <hr>
+    <button onclick="logout()">退出</button>
+  </div>
+<script>
+const base = 'http://localhost:8080'
+let token = localStorage.getItem('tk')
+if (token) showApp()
+
+function $(id) { return document.getElementById(id) }
+function msg(txt) { $('msg').innerText = txt }
+
+async function login() {
+  const dto = {
+    userName: $('userName').value.trim(),
+    password: $('password').value.trim()
+  }
+  if (!dto.userName || !dto.password) return msg('请输入')
+  const r = await fetch(base + '/api/user/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dto)
+  }).then(res => res.json())
+  if (r.code !== 0) return msg(r.message || '登录失败')
+  token = r.data['']   // 后端把 token 放空 key
+  localStorage.setItem('tk', token)
+  showApp()
+}
+
+function showApp() {
+  $('login').style.display = 'none'
+  $('app').style.display = 'block'
+  loadQuestions()
+  loadHistory()
+}
+
+function logout() {
+  localStorage.removeItem('tk')
+  location.reload()
+}
+
+async function loadQuestions() {
+  const qs = await fetch(base + '/api/quiz/questions', {
+    headers: { Authorization: 'Bearer ' + token }
+  }).then(res => res.json())
+  const html = qs.data.map(q => `
+    <div>
+      <p>${q.questionText}</p>
+      <label><input type="radio" name="q${q.questionId}" value="1"> ${q.answer1Text}</label>
+      <label><input type="radio" name="q${q.questionId}" value="2"> ${q.answer2Text}</label>
+      <label><input type="radio" name="q${q.questionId}" value="3"> ${q.answer3Text}</label>
+      <label><input type="radio" name="q${q.questionId}" value="4"> ${q.answer4Text}</label>
+      <button onclick="submit(${q.questionId})">提交</button>
+    </div>
+  `).join('')
+  $('qList').innerHTML = html
+}
+
+async function submit(qid) {
+  const sel = document.querySelector(`input[name="q${qid}"]:checked`)
+  if (!sel) return alert('请选择')
+  await fetch(base + '/api/answer/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token
+    },
+    body: JSON.stringify({ questionId: qid, selectedOption: +sel.value })
+  }).then(res => res.json())
+  alert('提交成功')
+  loadHistory()
+}
+
+async function loadHistory() {
+  const r = await fetch(base + '/api/answer/history/my', {
+    headers: { Authorization: 'Bearer ' + token }
+  }).then(res => res.json())
+  $('hist').innerHTML = '<tr><th>题号</th><th>选项</th><th>正误</th><th>时间</th></tr>' +
+    r.data.map(h => `<tr>
+      <td>${h.questionId}</td>
+      <td>${h.selectedOption}</td>
+      <td>${h.isCorrect ? '对' : '错'}</td>
+      <td>${h.answerTime}</td>
+    </tr>`).join('')
+}
+</script>
+</body>
+</html>

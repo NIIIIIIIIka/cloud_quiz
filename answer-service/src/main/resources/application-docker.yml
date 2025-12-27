@@ -2,20 +2,36 @@ server:
   port: ${SERVER_PORT:8083}          # 本地默认 8083；Docker 通过环境变量覆盖
 
 spring:
+  config:
+    import:
+      - optional:nacos:question-service.yaml?group=dev&namespace=dev
+      - optional:nacos:datasource-question-service.yaml?group=dev&namespace=dev  # 显式导入数据源配置
   ## Nacos
   cloud:
     nacos:
       discovery:
         server-addr: ${SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR:}
         enabled: ${SPRING_CLOUD_NACOS_DISCOVERY_ENABLED:true}
-        namespace: dev
-        group: dev
+        namespace: ${SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE}
+        group: ${SPRING_CLOUD_NACOS_DISCOVERY_GROUP}
         register-enabled: true
         ephemeral: true
         heart-beat-interval: 5000
         heart-beat-timeout: 15000
       config:
-        enabled: ${SPRING_CLOUD_NACOS_CONFIG_ENABLED:false}
+        enabled: ${SPRING_CLOUD_NACOS_CONFIG_ENABLED:true}
+
+        import-check:
+          enabled: false
+        server-addr: nacos:8848    # Nacos地址（容器名）
+        namespace: ${SPRING_CLOUD_NACOS_CONFIG_NAMESPACE}
+        group: ${SPRING_CLOUD_NACOS_CONFIG_GROUP}
+        file-extension: yaml       # 配置文件格式
+        # 导入Nacos中的共享配置（按需）
+        extension-configs:
+          - data-id: datasource-question-service.yaml
+            group: dev
+            refresh: true
     openfeign:
       circuitbreaker:
         enabled: true  # 确保这个开启

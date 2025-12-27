@@ -3,22 +3,29 @@ server:
 spring:
   application:
     name: user-service
+  config:
+    import:
+      - optional:nacos:user-service.yaml?group=dev&namespace=dev
+      - optional:nacos:datasource-user-service.yaml?group=dev&namespace=dev
+      - optional:nacos:common.yaml?group=dev&namespace=dev
   ## Nacos
   cloud:
     nacos:
       discovery:
         server-addr: ${SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR:}
         enabled: ${SPRING_CLOUD_NACOS_DISCOVERY_ENABLED:true}
-        namespace: dev
-        group: dev
+        namespace: ${SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE}
+        group: ${SPRING_CLOUD_NACOS_DISCOVERY_GROUP}
         register-enabled: true
         ephemeral: true
         heart-beat-interval: 5000
         heart-beat-timeout: 15000
       config:
-        enabled: ${SPRING_CLOUD_NACOS_CONFIG_ENABLED:false}
-        import-check:
-          enabled: false
+        enabled: ${SPRING_CLOUD_NACOS_CONFIG_ENABLED:true}
+        server-addr: ${SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR:localhost:8848}
+        namespace: ${SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE:dev}
+        group: ${SPRING_CLOUD_NACOS_DISCOVERY_GROUP:dev}
+        file-extension: yaml
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/quiz?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true}
     username: ${SPRING_DATASOURCE_USERNAME:root}
