@@ -1,0 +1,50 @@
+# Prometheus 配置文件
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Prometheus 自身监控
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # 网关服务
+  - job_name: 'gateway-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['gateway-service:8090']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'gateway-service'
+
+  # 用户服务
+  - job_name: 'user-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['user-service:8081']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'user-service'
+
+  # 题目服务
+  - job_name: 'question-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['question-service:8082']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'question-service'
+
+  # 答题服务
+  - job_name: 'answer-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['answer-service:8083']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'answer-service'

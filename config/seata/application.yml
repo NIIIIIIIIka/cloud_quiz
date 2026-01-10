@@ -1,0 +1,56 @@
+# Seata Server 配置 - 使用 Nacos 注册中心和配置中心
+server:
+  port: 7091
+
+spring:
+  application:
+    name: seata-server
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: ${log.home:${user.home}/logs/seata}
+
+console:
+  user:
+    username: seata
+    password: seata
+
+seata:
+  # 配置中心 - 使用 Nacos
+  config:
+    type: nacos
+    nacos:
+      server-addr: nacos:8848
+      namespace: dev
+      group: SEATA_GROUP
+      data-id: seataServer.properties
+      username: ""
+      password: ""
+  
+  # 注册中心 - 使用 Nacos
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: nacos:8848
+      namespace: dev
+      group: SEATA_GROUP
+      cluster: default
+      username: ""
+      password: ""
+  
+  # 存储模式
+  store:
+    mode: file
+    file:
+      dir: file_store/data
+
+  server:
+    service-port: 8091
+
+  security:
+    secretKey: SeataSecretKey0c382ef121d778043159209298fd40bf3850a017
+    tokenValidityInMilliseconds: 1800000
+    ignore:
+      urls: /,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.jpeg,/**/*.ico,/api/v1/auth/login

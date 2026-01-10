@@ -15,6 +15,12 @@ volumes:
   user-data:
   question-data:
   answer-data:
+  redis-data:
+  rabbitmq-data:
+  elasticsearch-data:
+  prometheus-data:
+  grafana-data:
+  seata-data:
 
 # 服务配置
 services:
@@ -46,6 +52,186 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+
+  # Nacos 配置自动导入
+  nacos-config-init:
+    image: curlimages/curl:8.5.0
+    container_name: nacos-config-init
+    depends_on:
+      nacos:
+        condition: service_healthy
+    volumes:
+      - ./nacos_config:/nacos_config:ro
+      - ./scripts/import-nacos-config.sh:/import.sh:ro
+    environment:
+      - NACOS_ADDR=http://nacos:8848
+      - NACOS_NAMESPACE=dev
+      - NACOS_GROUP=dev
+    entrypoint: ["sh", "/import.sh"]
+    networks:
+      - quiz-network
+    restart: "no"
+
+  # ====================== Redis 缓存服务 ======================
+  redis:
+    image: redis:7.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - quiz-network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ====================== RabbitMQ 消息队列 ======================
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # AMQP 协议端口
+      - "15672:15672"   # 管理界面端口
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - quiz-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ====================== Seata 分布式事务 ======================
+  seata-server:
+    image: seataio/seata-server:1.7.1
+    container_name: seata-server
+    ports:
+      - "8091:8091"
+      - "7091:7091"
+    environment:
+      - SEATA_IP=seata-server
+      - SEATA_PORT=8091
+    volumes:
+      - ./config/seata/application.yml:/seata-server/resources/application.yml
+      - seata-data:/seata-server/sessionStore
+    networks:
+      - quiz-network
+    depends_on:
+      nacos:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ====================== Zipkin 链路追踪 ======================
+  zipkin:
+    image: openzipkin/zipkin:3
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - quiz-network
+    environment:
+      - STORAGE_TYPE=mem
+    restart: unless-stopped
+
+  # ====================== Elasticsearch (ELK) ======================
+  elasticsearch:
+    image: elasticsearch:8.11.3
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - quiz-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  # ====================== Logstash (ELK) ======================
+  logstash:
+    image: logstash:8.11.3
+    container_name: logstash
+    ports:
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    volumes:
+      - ./config/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    networks:
+      - quiz-network
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ====================== Kibana (ELK) ======================
+  kibana:
+    image: kibana:8.11.3
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    networks:
+      - quiz-network
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ====================== Prometheus 监控 ======================
+  prometheus:
+    image: prom/prometheus:v2.48.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - quiz-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+
+  # ====================== Grafana 可视化 ======================
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - quiz-network
+    depends_on:
+      - prometheus
+      - elasticsearch
     restart: unless-stopped
 
   # ====================== 数据库服务 ======================
@@ -151,13 +337,24 @@ services:
       - JWT_EXPIRATION=86400000
       - SPRING_CLOUD_NACOS_CONFIG_ENABLED=true
       - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - REDIS_HOST=redis
+      - RABBITMQ_HOST=rabbitmq
+      - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - LOGSTASH_HOST=logstash
+      - NACOS_SERVER_ADDR=nacos:8848
     ports:
       - "8081:8081"
     depends_on:
-      # nacos:
-      #   condition: service_started
+      nacos:
+        condition: service_healthy
+      nacos-config-init:
+        condition: service_completed_successfully
       user-db:
         condition: service_started
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - quiz-network
     restart: unless-stopped
@@ -184,11 +381,18 @@ services:
       - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
       - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
       - JWT_EXPIRATION=86400000
+      - REDIS_HOST=redis
+      - RABBITMQ_HOST=rabbitmq
+      - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - LOGSTASH_HOST=logstash
+      - NACOS_SERVER_ADDR=nacos:8848
     ports:
       - "8082:8082"
     depends_on:
       nacos:
-        condition: service_started
+        condition: service_healthy
+      nacos-config-init:
+        condition: service_completed_successfully
       question-db:
         condition: service_started
     networks:
@@ -219,17 +423,28 @@ services:
       - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
       - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
       - JWT_EXPIRATION=86400000
+      - REDIS_HOST=redis
+      - RABBITMQ_HOST=rabbitmq
+      - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - LOGSTASH_HOST=logstash
+      - NACOS_SERVER_ADDR=nacos:8848
     ports:
       - "8083:8083"
     depends_on:
       nacos:
-        condition: service_started
+        condition: service_healthy
+      nacos-config-init:
+        condition: service_completed_successfully
       answer-db:
         condition: service_started
       user-service:
         condition: service_started
       question-service:
         condition: service_started
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - quiz-network
     restart: unless-stopped
@@ -253,17 +468,25 @@ services:
       - SPRING_CLOUD_NACOS_CONFIG_GROUP=dev
       - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
       - JWT_EXPIRATION=86400000
+      - REDIS_HOST=redis
+      - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - LOGSTASH_HOST=logstash
+      - NACOS_SERVER_ADDR=nacos:8848
     ports:
       - "8090:8090"
     depends_on:
       nacos:
-        condition: service_started
+        condition: service_healthy
+      nacos-config-init:
+        condition: service_completed_successfully
       user-service:
         condition: service_started
       question-service:
         condition: service_started
       answer-service:
         condition: service_started
+      redis:
+        condition: service_healthy
     networks:
       - quiz-network
     healthcheck:

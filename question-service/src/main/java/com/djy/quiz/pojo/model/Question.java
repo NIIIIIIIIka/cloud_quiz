@@ -1,5 +1,6 @@
 package com.djy.quiz.pojo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -16,6 +17,8 @@ public class Question {
   private String answer4Text;
   private Integer answer4Correct;
   private Integer isDeleted;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime createdAt;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime updatedAt;
 }

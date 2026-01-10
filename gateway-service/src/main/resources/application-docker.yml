@@ -47,6 +47,15 @@ spring:
                 whiteList: /api/user/register,/api/user/login,/api/user/health
             - StripPrefix=0
 
+        # 答题提交和历史记录路由到 answer-service（优先级更高）
+        - id: quiz-answer-service
+          uri: lb://answer-service
+          predicates:
+            - Path=/api/quiz/submit,/api/quiz/history
+          filters:
+            - name: JwtGatewayFilter
+            - StripPrefix=0
+
         # 题目服务
         - id: question-service
           uri: lb://question-service

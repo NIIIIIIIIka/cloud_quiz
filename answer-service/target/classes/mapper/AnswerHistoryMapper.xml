@@ -51,4 +51,8 @@
     SELECT <include refid="Base_Column_List"/>
     FROM answer_history WHERE is_deleted = 0 ORDER BY answer_history_id DESC
   </select>
+
+  <delete id="hardDelete" parameterType="long">
+    DELETE FROM answer_history WHERE answer_history_id = #{answerHistoryId}
+</delete>
 </mapper>

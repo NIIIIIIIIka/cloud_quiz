@@ -4,8 +4,9 @@ server:
 spring:
   config:
     import:
-      - optional:nacos:question-service.yaml?group=dev&namespace=dev
-      - optional:nacos:datasource-question-service.yaml?group=dev&namespace=dev  # 显式导入数据源配置
+      - optional:nacos:answer-service.yaml?group=dev&namespace=dev
+      - optional:nacos:datasource-answer-service.yaml?group=dev&namespace=dev
+      - optional:nacos:common.yaml?group=dev&namespace=dev
   ## Nacos
   cloud:
     nacos:
@@ -29,7 +30,7 @@ spring:
         file-extension: yaml       # 配置文件格式
         # 导入Nacos中的共享配置（按需）
         extension-configs:
-          - data-id: datasource-question-service.yaml
+          - data-id: datasource-answer-service.yaml
             group: dev
             refresh: true
     openfeign:
@@ -53,6 +54,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     default-property-inclusion: non_null
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write-dates-as-timestamps: false
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
@@ -95,10 +99,14 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: '*'
   endpoint:
     health:
       show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
 
 # 外部服务配置（本地开发使用，生产环境使用Nacos服务发现）
 services:
@@ -106,3 +114,4 @@ services:
     url: ${SERVICES_USER_URL:http://user-service:8081}
   question:
     url: ${SERVICES_CATALOG_URL:http://question-service:8082}
+

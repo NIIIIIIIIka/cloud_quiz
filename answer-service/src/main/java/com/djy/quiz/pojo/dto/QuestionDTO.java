@@ -1,10 +1,12 @@
 package com.djy.quiz.pojo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class QuestionDTO {
   private Integer questionId;
   @NotBlank
@@ -27,11 +29,11 @@ public class QuestionDTO {
   private Integer answer4Correct;
 
   public QuestionDTO(Integer questionId,
-                     String questionText,
-                     String answer1Text, Integer answer1Correct,
-                     String answer2Text, Integer answer2Correct,
-                     String answer3Text, Integer answer3Correct,
-                     String answer4Text, Integer answer4Correct) {
+      String questionText,
+      String answer1Text, Integer answer1Correct,
+      String answer2Text, Integer answer2Correct,
+      String answer3Text, Integer answer3Correct,
+      String answer4Text, Integer answer4Correct) {
     this.questionId = questionId;
     this.questionText = questionText;
     this.answer1Text = answer1Text;

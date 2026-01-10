@@ -6,6 +6,7 @@ import com.djy.quiz.pojo.dto.AnswerSubmitDTO;
 import com.djy.quiz.pojo.dto.QuestionDTO;
 import com.djy.quiz.pojo.model.AnswerHistory;
 import com.djy.quiz.pojo.vo.AnswerResultVO;
+import com.djy.quiz.pojo.vo.AnswerHistoryVO;
 import com.djy.quiz.pojo.vo.UserVO;
 import com.djy.quiz.response.Result;
 import com.djy.quiz.service.AnswerHistoryService;
@@ -25,17 +26,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/answer")
 public class AnswerController {
     private final Tools tools;
-    private final QuestionServiceClient questionServiceClient;  // 使用Feign客户端
-    
-    private final UserServiceClient userServiceClient;          // 使用Feign客户端
+    private final QuestionServiceClient questionServiceClient; // 使用Feign客户端
+
+    private final UserServiceClient userServiceClient; // 使用Feign客户端
     private final AnswerHistoryService answerHistoryService;
 
     public AnswerController(Tools tools,
-                            @Qualifier("com.djy.quiz.feign.QuestionServiceClient")
-                            QuestionServiceClient questionServiceClient,
-                            @Qualifier("com.djy.quiz.feign.UserServiceClient")
-                            UserServiceClient userServiceClient,
-                            AnswerHistoryService answerHistoryService) {
+            @Qualifier("com.djy.quiz.feign.QuestionServiceClient") QuestionServiceClient questionServiceClient,
+            @Qualifier("com.djy.quiz.feign.UserServiceClient") UserServiceClient userServiceClient,
+            AnswerHistoryService answerHistoryService) {
         this.tools = tools;
         this.questionServiceClient = questionServiceClient;
         this.userServiceClient = userServiceClient;
@@ -47,29 +46,29 @@ public class AnswerController {
      */
     @PostMapping("/submit")
     public Result<AnswerResultVO> submit(@RequestBody @Valid AnswerSubmitDTO dto,
-                                         HttpServletRequest request){
+            HttpServletRequest request) {
         Long userId = Tools.getUserId();
-        System.out.println("userId: "+userId);
-        Result<UserVO> user =userServiceClient.getUserById(userId);
+        System.out.println("userId: " + userId);
+        Result<UserVO> user = userServiceClient.getUserById(userId);
         Result<QuestionDTO> question = questionServiceClient.getQuestionById(dto.getQuestionId());
-//        boolean correct = isCorrect(question.getData(), dto.getSelectedOption());
-//
-//        AnswerHistory h = new AnswerHistory();
-//        h.setUserId(userId);
-//        h.setQuestionId(dto.getQuestionId());
-//        h.setSelectedOption(dto.getSelectedOption());
-//        h.setIsCorrect(correct ? 1 : 0);
-//        h.setAnswerTime(LocalDateTime.now());
-//        answerHistoryService.add(h);
-//
-//        AnswerResultVO vo = new AnswerResultVO();
-//        vo.setAnswerHistoryId(h.getAnswerHistoryId());
-//        vo.setQuestionId(dto.getQuestionId());
-//        vo.setSelectedOption(dto.getSelectedOption());
-//        vo.setIsCorrect(correct);
-//        vo.setAnswerTime(h.getAnswerTime());
-//        return Result.ok(vo);
-        if(user.isSuccess()&&question.isSuccess()) {
+        // boolean correct = isCorrect(question.getData(), dto.getSelectedOption());
+        //
+        // AnswerHistory h = new AnswerHistory();
+        // h.setUserId(userId);
+        // h.setQuestionId(dto.getQuestionId());
+        // h.setSelectedOption(dto.getSelectedOption());
+        // h.setIsCorrect(correct ? 1 : 0);
+        // h.setAnswerTime(LocalDateTime.now());
+        // answerHistoryService.add(h);
+        //
+        // AnswerResultVO vo = new AnswerResultVO();
+        // vo.setAnswerHistoryId(h.getAnswerHistoryId());
+        // vo.setQuestionId(dto.getQuestionId());
+        // vo.setSelectedOption(dto.getSelectedOption());
+        // vo.setIsCorrect(correct);
+        // vo.setAnswerTime(h.getAnswerTime());
+        // return Result.ok(vo);
+        if (user.isSuccess() && question.isSuccess()) {
             boolean correct = isCorrect(question.getData(), dto.getSelectedOption());
 
             AnswerHistory h = new AnswerHistory();
@@ -90,7 +89,7 @@ public class AnswerController {
         } else if (user.isSuccess()) {
             log.error("获取题目失败: code={}, message={}", question.getCode(), question.getMessage());
             return Result.error(question.getCode(), "获取题目失败: " + question.getMessage());
-        }else {
+        } else {
             log.error("获取用户失败: code={}, message={}", user.getCode(), user.getMessage());
             return Result.error(user.getCode(), "获取题目失败: " + user.getMessage());
         }
@@ -113,32 +112,36 @@ public class AnswerController {
         }
         return Result.error(404, "用户不存在");
     }
+
     @GetMapping("/history/all")
     public Result<List<AnswerHistory>> listHistory(HttpServletRequest request) {
         tools.checkAdmin(request);
         return Result.ok(answerHistoryService.listAll());
     }
+
     @GetMapping("/history/my")
-    public Result<List<AnswerResultVO>> myHistory(HttpServletRequest request) {
+    public Result<List<AnswerHistoryVO>> myHistory(HttpServletRequest request) {
         Long userId = Tools.getUserId();
-        List<AnswerResultVO> list = answerHistoryService.listByUser(userId)
+        List<AnswerHistoryVO> list = answerHistoryService.listByUser(userId)
                 .stream()
-                .map(this::toVO)
+                .map(this::toHistoryVO)
                 .collect(Collectors.toList());
         return Result.ok(list);
     }
+
     @GetMapping("/history/{id}")
     public Result<AnswerHistory> getHistoryById(@PathVariable("id") Long id,
-                                                HttpServletRequest request) {
+            HttpServletRequest request) {
         tools.checkAdmin(request);
-        AnswerHistory history=answerHistoryService.getById(id);
-        if(history!=null){
-            return Result.ok(history);}
-        else {
-            return  Result.error(404,"记录不存在");
+        AnswerHistory history = answerHistoryService.getById(id);
+        if (history != null) {
+            return Result.ok(history);
+        } else {
+            return Result.error(404, "记录不存在");
         }
 
     }
+
     @DeleteMapping("/history/{id}")
     public Result<Void> deleteHistory(@PathVariable("id") Long id, HttpServletRequest request) {
         tools.checkAdmin(request);
@@ -164,6 +167,19 @@ public class AnswerController {
         vo.setSelectedOption(h.getSelectedOption());
         vo.setIsCorrect(h.getIsCorrect() == 1);
         vo.setAnswerTime(h.getAnswerTime());
+        return vo;
+    }
+
+    private AnswerHistoryVO toHistoryVO(AnswerHistory h) {
+        AnswerHistoryVO vo = new AnswerHistoryVO();
+        vo.setAnswerHistoryId(h.getAnswerHistoryId());
+        vo.setUserId(h.getUserId());
+        vo.setQuestionId(h.getQuestionId());
+        vo.setSelectedOption(h.getSelectedOption());
+        vo.setIsCorrect(h.getIsCorrect());
+        vo.setAnswerTime(h.getAnswerTime() != null ? h.getAnswerTime().toString() : null);
+        vo.setCreatedAt(h.getCreatedAt() != null ? h.getCreatedAt().toString() : null);
+        vo.setUpdatedAt(h.getUpdatedAt() != null ? h.getUpdatedAt().toString() : null);
         return vo;
     }
 }

@@ -108,6 +108,15 @@
         </exclusion>
       </exclusions>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
     <!-- BCrypt -->
     <dependency>
       <groupId>org.springframework.security</groupId>
@@ -120,6 +129,62 @@
       <artifactId>lombok</artifactId>
       <version>1.18.34</version>
       <scope>provided</scope>
+    </dependency>
+    <!-- RabbitMQ 依赖 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-amqp</artifactId>
+    </dependency>
+
+    <!-- Jackson 用于JSON序列化 -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <!-- Jackson Java 8 日期时间支持 -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+
+    <!-- ====================== 新增技术组件依赖 ====================== -->
+    <!-- Redis（缓存） -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+
+    <!-- Commons Pool2（Redis连接池，使用Spring Boot 3兼容版本） -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-pool2</artifactId>
+      <version>2.12.0</version>
+    </dependency>
+
+    <!-- Micrometer Tracing + Zipkin（链路追踪，替代 Sleuth） -->
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-tracing-bridge-brave</artifactId>
+      <version>1.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.zipkin.reporter2</groupId>
+      <artifactId>zipkin-reporter-brave</artifactId>
+      <version>2.16.4</version>
+    </dependency>
+
+    <!-- Seata（分布式事务） -->
+    <dependency>
+      <groupId>io.seata</groupId>
+      <artifactId>seata-spring-boot-starter</artifactId>
+      <version>1.7.1</version>
+    </dependency>
+
+    <!-- Logstash Logback Encoder（日志收集到 ELK） -->
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>7.4</version>
     </dependency>
   </dependencies>
   <dependencyManagement>

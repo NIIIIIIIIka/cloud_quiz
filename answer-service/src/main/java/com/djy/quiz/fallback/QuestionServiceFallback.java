@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Component  // 必须标记为Spring组件
+@Component // 必须标记为Spring组件
 public class QuestionServiceFallback implements QuestionServiceClient {
 
     @Override
@@ -27,6 +27,9 @@ public class QuestionServiceFallback implements QuestionServiceClient {
         defaultQuestion.setAnswer3Text("选项C");
         defaultQuestion.setAnswer4Text("选项D");
         defaultQuestion.setAnswer1Correct(1); // 默认A正确
+        defaultQuestion.setAnswer2Correct(0);
+        defaultQuestion.setAnswer3Correct(0);
+        defaultQuestion.setAnswer4Correct(0);
 
         return Result.ok(defaultQuestion);
     }

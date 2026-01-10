@@ -19,6 +19,7 @@ import java.util.Map;
 public class UserController {
   private final Tools tools;
   private final UserService userService;
+
   public UserController(Tools tools, UserService userService) {
     this.tools = tools;
     this.userService = userService;
@@ -33,8 +34,6 @@ public class UserController {
     return Result.ok();
   }
 
-
-
   /**
    * 用户登录，返回 token
    */
@@ -46,7 +45,7 @@ public class UserController {
 
   @GetMapping("/users/{id}")
   public Result<UserVO> getUser(@PathVariable("id") Long id, HttpServletRequest request) {
-    if((!tools.checkAdmin(request))&&(!tools.checkSource(request))){
+    if ((!tools.checkAdmin(request)) && (!tools.checkSource(request))) {
       throw new IllegalArgumentException("checkAdmin checkSource无访问权限");
     }
     return Result.ok(userService.getById(id));
@@ -55,14 +54,15 @@ public class UserController {
   // ========== 用户管理 ==========
   @GetMapping("/users")
   public Result<List<UserVO>> listUsers(HttpServletRequest request) {
-    if(!tools.checkAdmin(request)){
+    if (!tools.checkAdmin(request)) {
       throw new IllegalArgumentException("无管理员权限");
     }
     return Result.ok(userService.listAll());
   }
+
   @PutMapping("/users/{id}")
   public Result<Void> updateUser(@PathVariable("id") Long id, @RequestBody User user, HttpServletRequest request) {
-    if(!tools.checkAdmin(request)){
+    if (!tools.checkAdmin(request)) {
       throw new IllegalArgumentException("无管理员权限");
     }
     user.setUserId(id);
@@ -72,18 +72,20 @@ public class UserController {
 
   @DeleteMapping("/users/{id}")
   public Result<Void> deleteUser(@PathVariable("id") Long id, HttpServletRequest request) {
-    if(!tools.checkAdmin(request)){
+    if (!tools.checkAdmin(request)) {
       throw new IllegalArgumentException("无管理员权限");
     }
     userService.delete(id);
     return Result.ok();
   }
+
   /**
    * 获取当前用户信息
    */
   @GetMapping("/info")
   public Result<UserVO> info(HttpServletRequest request) {
-    Long userId = (Long) request.getAttribute("userId");
+    // Long userId = (Long) request.getAttribute("userId");
+    Long userId = Tools.getUserId();
     return Result.ok(userService.getById(userId));
   }
 
