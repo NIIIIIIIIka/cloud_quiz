@@ -315,13 +315,13 @@ services:
     restart: unless-stopped
 
   # ====================== 微服务 ======================
-  # 用户服务
-  user-service:
+  # 用户服务 - 实例1
+  user-service-1:
     build:
       context: ./user-service
       dockerfile: Dockerfile
     image: quiz-cloud-user-service:1.0.0
-    container_name: user-service
+    container_name: user-service-1
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:mysql://user-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
@@ -342,6 +342,7 @@ services:
       - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
       - LOGSTASH_HOST=logstash
       - NACOS_SERVER_ADDR=nacos:8848
+      - SERVER_PORT=8081
     ports:
       - "8081:8081"
     depends_on:
@@ -359,13 +360,58 @@ services:
       - quiz-network
     restart: unless-stopped
 
-  # 题目服务
-  question-service:
+  # 用户服务 - 实例2
+  user-service-2:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-user-service:1.0.0
+    container_name: user-service-2
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://user-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=user-service
+      - SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE=dev
+      - SPRING_CLOUD_NACOS_DISCOVERY_GROUP=dev
+      - SPRING_CLOUD_NACOS_CONFIG_NAMESPACE=dev
+      - SPRING_CLOUD_NACOS_CONFIG_GROUP=dev
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=true
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - REDIS_HOST=redis
+      - RABBITMQ_HOST=rabbitmq
+      - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - LOGSTASH_HOST=logstash
+      - NACOS_SERVER_ADDR=nacos:8848
+      - SERVER_PORT=8081
+    ports:
+      - "8084:8081"
+    depends_on:
+      nacos:
+        condition: service_healthy
+      nacos-config-init:
+        condition: service_completed_successfully
+      user-db:
+        condition: service_started
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - quiz-network
+    restart: unless-stopped
+
+  # 题目服务 - 实例1
+  question-service-1:
     build:
       context: ./question-service
       dockerfile: Dockerfile
     image: quiz-cloud-question-service:1.0.0
-    container_name: question-service
+    container_name: question-service-1
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:mysql://question-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
@@ -386,6 +432,7 @@ services:
       - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
       - LOGSTASH_HOST=logstash
       - NACOS_SERVER_ADDR=nacos:8848
+      - SERVER_PORT=8082
     ports:
       - "8082:8082"
     depends_on:
@@ -399,7 +446,48 @@ services:
       - quiz-network
     restart: unless-stopped
 
-  # 选课服务
+  # 题目服务 - 实例2
+  question-service-2:
+    build:
+      context: ./question-service
+      dockerfile: Dockerfile
+    image: quiz-cloud-question-service:1.0.0
+    container_name: question-service-2
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://question-db:3306/quiz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR=nacos:8848
+      - SPRING_CLOUD_NACOS_DISCOVERY_SERVICE=question-service
+      - SPRING_CLOUD_NACOS_DISCOVERY_NAMESPACE=dev
+      - SPRING_CLOUD_NACOS_DISCOVERY_GROUP=dev
+      - SPRING_CLOUD_NACOS_CONFIG_NAMESPACE=dev
+      - SPRING_CLOUD_NACOS_CONFIG_GROUP=dev
+      - SPRING_CLOUD_NACOS_CONFIG_ENABLED=true
+      - SPRING_CLOUD_NACOS_DISCOVERY_ENABLED=true
+      - JWT_SECRET=ajogjsofjscmolusojclskmsdlgoujoiafjmsldkcmdsgjioawejhnklasdclksdghasjklfnslkdfnmlkdscjsdkohganksldmnssldkcmnsdghnasdkjfmnsdklcmsdklhgjkladmclksmnjksdngmcgnfaksljfmndsklchndsjknfga
+      - JWT_EXPIRATION=86400000
+      - REDIS_HOST=redis
+      - RABBITMQ_HOST=rabbitmq
+      - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - LOGSTASH_HOST=logstash
+      - NACOS_SERVER_ADDR=nacos:8848
+      - SERVER_PORT=8082
+    ports:
+      - "8085:8082"
+    depends_on:
+      nacos:
+        condition: service_healthy
+      nacos-config-init:
+        condition: service_completed_successfully
+      question-db:
+        condition: service_started
+    networks:
+      - quiz-network
+    restart: unless-stopped
+
+  # 答题服务 (1个实例)
   answer-service:
     build:
       context: ./answer-service
@@ -428,6 +516,7 @@ services:
       - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
       - LOGSTASH_HOST=logstash
       - NACOS_SERVER_ADDR=nacos:8848
+      - SERVER_PORT=8083
     ports:
       - "8083:8083"
     depends_on:
@@ -437,9 +526,13 @@ services:
         condition: service_completed_successfully
       answer-db:
         condition: service_started
-      user-service:
+      user-service-1:
         condition: service_started
-      question-service:
+      user-service-2:
+        condition: service_started
+      question-service-1:
+        condition: service_started
+      question-service-2:
         condition: service_started
       redis:
         condition: service_healthy
@@ -449,7 +542,7 @@ services:
       - quiz-network
     restart: unless-stopped
 
-  # # ====================== 网关服务 ======================
+  # ====================== 网关服务 (1个实例) ======================
   gateway-service:
     build:
       context: ./gateway-service
@@ -472,6 +565,7 @@ services:
       - ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
       - LOGSTASH_HOST=logstash
       - NACOS_SERVER_ADDR=nacos:8848
+      - SERVER_PORT=8090
     ports:
       - "8090:8090"
     depends_on:
@@ -479,9 +573,13 @@ services:
         condition: service_healthy
       nacos-config-init:
         condition: service_completed_successfully
-      user-service:
+      user-service-1:
         condition: service_started
-      question-service:
+      user-service-2:
+        condition: service_started
+      question-service-1:
+        condition: service_started
+      question-service-2:
         condition: service_started
       answer-service:
         condition: service_started

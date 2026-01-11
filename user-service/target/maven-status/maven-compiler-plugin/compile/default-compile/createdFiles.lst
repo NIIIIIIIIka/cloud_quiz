@@ -20,5 +20,6 @@ com\djy\quiz\util\Tools$UserInfo$UserInfoBuilder.class
 com\djy\quiz\pojo\dto\UserLoginDTO.class
 com\djy\quiz\util\Tools.class
 com\djy\quiz\pojo\vo\UserVO.class
+com\djy\quiz\filter\InstanceInfoFilter.class
 com\djy\quiz\mq\UserEventProducer.class
 com\djy\quiz\service\UserService.class

@@ -21,4 +21,5 @@ com\djy\quiz\util\Tools.class
 com\djy\quiz\pojo\vo\UserVO.class
 com\djy\quiz\filter\JwtFilter.class
 com\djy\quiz\mapper\QuestionMapper.class
+com\djy\quiz\filter\InstanceInfoFilter.class
 com\djy\quiz\service\impl\QuestionServiceImpl.class

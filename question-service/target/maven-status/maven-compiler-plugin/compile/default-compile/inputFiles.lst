@@ -4,6 +4,7 @@ C:\Users\ASUSBOOK\Desktop\cloud_quiz\question-service\src\main\java\com\djy\quiz
 C:\Users\ASUSBOOK\Desktop\cloud_quiz\question-service\src\main\java\com\djy\quiz\config\JacksonConfig.java
 C:\Users\ASUSBOOK\Desktop\cloud_quiz\question-service\src\main\java\com\djy\quiz\pojo\vo\UserVO.java
 C:\Users\ASUSBOOK\Desktop\cloud_quiz\question-service\src\main\java\com\djy\quiz\util\JwtUtil.java
+C:\Users\ASUSBOOK\Desktop\cloud_quiz\question-service\src\main\java\com\djy\quiz\filter\InstanceInfoFilter.java
 C:\Users\ASUSBOOK\Desktop\cloud_quiz\question-service\src\main\java\com\djy\quiz\pojo\dto\QuestionDTO.java
 C:\Users\ASUSBOOK\Desktop\cloud_quiz\question-service\src\main\java\com\djy\quiz\config\RabbitMQConfig.java
 C:\Users\ASUSBOOK\Desktop\cloud_quiz\question-service\src\main\java\com\djy\quiz\QuizApplication.java

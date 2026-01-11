@@ -58,6 +58,13 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
+  # RabbitMQ 连接配置（确保容器内可连接到 rabbitmq 服务）
+  rabbitmq:
+    host: ${RABBITMQ_HOST:rabbitmq}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: com.djy.quiz.pojo.model

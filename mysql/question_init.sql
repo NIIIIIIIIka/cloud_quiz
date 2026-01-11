@@ -8,6 +8,10 @@ CREATE DATABASE IF NOT EXISTS quiz
 
 USE quiz;
 
+SET NAMES utf8mb4;
+SET character_set_connection = utf8mb4;
+SET collation_connection = utf8mb4_0900_ai_ci;
+
 -- 2) 幂等清理（先删子表，再删父表）
 DROP TABLE IF EXISTS questions;
 

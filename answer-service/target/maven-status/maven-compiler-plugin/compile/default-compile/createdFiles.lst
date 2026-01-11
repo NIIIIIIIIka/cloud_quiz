@@ -30,5 +30,6 @@ com\djy\quiz\util\Tools$UserInfo$UserInfoBuilder.class
 com\djy\quiz\util\Tools.class
 com\djy\quiz\pojo\vo\UserVO.class
 com\djy\quiz\service\impl\AnswerHistoryServiceImpl.class
+com\djy\quiz\filter\InstanceInfoFilter.class
 com\djy\quiz\fallback\QuestionServiceFallback.class
 com\djy\quiz\feign\FeignClientConfig$FeignRequestInterceptor.class

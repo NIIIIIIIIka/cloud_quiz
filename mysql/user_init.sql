@@ -8,6 +8,10 @@ CREATE DATABASE IF NOT EXISTS quiz
 
 USE quiz;
 
+SET NAMES utf8mb4;
+SET character_set_connection = utf8mb4;
+SET collation_connection = utf8mb4_0900_ai_ci;
+
 -- 2) 幂等清理（先删子表，再删父表）
 DROP TABLE IF EXISTS users;
 
@@ -33,4 +37,4 @@ CREATE TABLE users (
 -- 6) 测试数据（使用变量保存自增ID，保证可重复执行）
 -- 测试用户
 INSERT INTO users (user_name, user_password, user_role)
-VALUES ('test', '$2a$10$JSNNpBixuDCEQJGeZNy9V.7NMibUl5WLimdMDg8TRRpDMrOMoYMi2', 0); -- 仅用于测试，生产请存储加密后的密码
+VALUES ('test', '$2a$10$JSNNpBixuDCEQJGeZNy9V.7NMibUl5WLimdMDg8TRRpDMrOMoYMi2', 0),('admin', '$2a$10$JSNNpBixuDCEQJGeZNy9V.7NMibUl5WLimdMDg8TRRpDMrOMoYMi2', 1); -- 仅用于测试，生产请存储加密后的密码
